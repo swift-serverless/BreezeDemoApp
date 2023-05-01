@@ -1,0 +1,98 @@
+service: swift-breeze-rest-form-api
+frameworkVersion: '3'
+configValidationMode: warn
+useDotenv: false
+provider:
+  name: aws
+  region: us-east-1
+  disableRollback: false
+  runtime: provided.al2
+  httpApi:
+    payload: '2.0'
+    cors: false
+  architecture: arm64
+  environment:
+    DYNAMO_DB_TABLE_NAME: ${self:custom.tableName}
+    DYNAMO_DB_KEY: ${self:custom.keyName}
+  versionFunctions: true
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+        Resource: '*'
+      - Effect: Allow
+        Action:
+        - dynamodb:UpdateItem
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:DescribeTable
+        Resource:
+        - Fn::GetAtt:
+          - FormAPITable
+          - Arn
+package:
+  artifact: build/FormAPI/FormAPI.zip
+custom:
+  tableName: forms-table-${sls:stage}
+  keyName: formKey
+functions:
+  listFormAPI:
+    handler: list
+    memorySize: 256
+    description: '[${sls:stage}] get /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: get
+  readFormAPI:
+    handler: read
+    memorySize: 256
+    description: '[${sls:stage}] get /forms/{formKey}'
+    events:
+    - httpApi:
+        path: /forms/{formKey}
+        method: get
+  deleteFormAPI:
+    handler: delete
+    memorySize: 256
+    description: '[${sls:stage}] delete /forms/{formKey}'
+    events:
+    - httpApi:
+        path: /forms/{formKey}
+        method: delete
+  createFormAPI:
+    handler: create
+    memorySize: 256
+    description: '[${sls:stage}] post /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: post
+  updateFormAPI:
+    handler: update
+    memorySize: 256
+    description: '[${sls:stage}] put /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: put
+resources:
+  Resources:
+    FormAPITable:
+      Properties:
+        KeySchema:
+        - AttributeName: ${self:custom.keyName}
+          KeyType: HASH
+        AttributeDefinitions:
+        - AttributeType: S
+          AttributeName: ${self:custom.keyName}
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+      Type: AWS::DynamoDB::Table

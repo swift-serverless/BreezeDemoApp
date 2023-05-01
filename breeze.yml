@@ -1,0 +1,13 @@
+service: swift-breeze-rest-form-api
+awsRegion: us-east-1
+swiftVersion: 5.7.3
+swiftConfiguration: release
+packageName: BreezeFormAPI
+buildPath: build
+cors: false
+breezeLambdaAPI:
+    targetName: FormAPI
+    itemCodable: Form
+    itemKey: formKey
+    httpAPIPath: /forms
+    dynamoDBTableNamePrefix: forms
