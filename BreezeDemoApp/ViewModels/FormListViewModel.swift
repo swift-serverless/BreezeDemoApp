@@ -15,6 +15,14 @@
 import Foundation
 import Combine
 
+
+enum Operation {
+    case create(FeedbackForm)
+    case read(FeedbackForm)
+    case update(FeedbackForm)
+    case delete(String)
+}
+
 class FormListViewModel: ObservableObject {
 
     private var bag = Set<AnyCancellable>()
@@ -30,24 +38,45 @@ class FormListViewModel: ObservableObject {
         }
     }
     
-    func read(key: String) {
+    func form(key: String) -> FeedbackForm {
+        forms.first(where: { $0.key == key })!
+    }
+    
+    func onChange(_ operation: Operation) {
+        switch operation {
+        case .create(let form):
+            forms.removeAll { $0.key == form.key }
+            forms.append(form)
+        case .read(let form):
+            forms.removeAll { $0.key == form.key }
+            forms.append(form)
+        case .update(let form):
+            forms.removeAll { $0.key == form.key }
+            forms.append(form)
+        case .delete(let key):
+            forms.removeAll { $0.key == key }
+        }
+        forms = forms.sorted(by: { $0.key < $1.key })
+    }
+    
+    func read(key: String, completion: @escaping () -> Void) {
         Task { @MainActor in
             do {
                 let readedForm = try await service.read(key: key)
-                if let index = self.forms.firstIndex(where: { $0.key == key }) {
-                    self.forms.remove(at: index)
-                    self.forms.insert(readedForm, at: index)
-                }
+                onChange(.read(readedForm))
+                completion()
             } catch {
                 self.error = error
             }
         }
     }
     
-    func list() {
+    func list(completion: @escaping () -> Void) {
         Task { @MainActor in
             do {
-                self.forms = try await service.list(startKey: nil, limit: 100)
+                let list = try await service.list(startKey: nil, limit: 100)
+                self.forms = list.sorted(by: { $0.key < $1.key })
+                completion()
             } catch {
                 self.error = error
             }

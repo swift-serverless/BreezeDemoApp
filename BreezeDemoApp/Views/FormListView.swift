@@ -16,32 +16,39 @@ import SwiftUI
 
 struct FormListView: View {
     
-    @State private var fillingForm = false
     @StateObject var viewModel = FormListViewModel()
+    @State private var path: [String] = []
+    @State var showSheet: Bool = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List(viewModel.forms, id: \.self.key) { form in
-                NavigationLink {
-                    FormView(viewModel: FormViewModel(feedbackForm: form))
-                        .navigationTitle(form.key)
-                        .onDisappear {
-                            viewModel.read(key: form.key)
-                        }
-                } label: {
+                NavigationLink(value: form.key) {
                     VStack(alignment: .leading) {
-                        Text(form.updatedAt ?? "")
-                        Text(form.key).fontWeight(.light)
-                    }
+                        Text("Created: \(form.createdAt ?? "")")
+                        Text("Updated: \(form.updatedAt ?? "")")
+                        Text(form.key)
+                    }.fontWeight(.light)
+                }
+                .navigationDestination(for: String.self) { key in
+                    FormView(viewModel: FormViewModel(
+                        feedbackForm: viewModel.form(key: key),
+                        onChange: { operation in
+                        viewModel.onChange(operation)
+                        path = []
+                    }))
+                    .navigationTitle(form.key)
                 }
             }
             .refreshable {
-                viewModel.list()
+                viewModel.list() {
+                    print("LIST")
+                }
             }
             .listStyle(.plain)
                 .navigationBarItems(
                     trailing: Button(action: {
-                        fillingForm.toggle()
+                        showSheet.toggle()
                     }, label: {
                         Text("+")
                     })
@@ -50,13 +57,18 @@ struct FormListView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
-            viewModel.list()
+            viewModel.list() {
+                print("LIST")
+            }
         }
         .navigationViewStyle(.stack)
-        .sheet(isPresented: $fillingForm) {
-            FormView(viewModel: FormViewModel()).onDisappear {
-                viewModel.list()
-            }
+        .sheet(isPresented: $showSheet) {
+            FormView(
+                viewModel: FormViewModel(feedbackForm: .empty(), onChange: { operation in
+                    viewModel.onChange(operation)
+                    showSheet.toggle()
+                })
+            )
         }
     }
 }

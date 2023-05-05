@@ -30,7 +30,7 @@ struct FormView: View {
                     RoundButton(text: "Submit",
                                 enabled: $viewModel.isValid) {
                         viewModel.create {
-                            print("created")
+                            print("CREATED")
                         }
                     }
                 } else {
@@ -38,14 +38,14 @@ struct FormView: View {
                         RoundButton(text: "Update",
                                     enabled: $viewModel.isValid) {
                             viewModel.update {
-                                print("updated")
+                                print("UDATED")
                             }
                         }
                         RoundButton(text: "Delete",
                                     color: .red,
                                     enabled: .constant(true)) {
                             viewModel.delete {
-                                print("deleted")
+                                print("DELETED")
                             }
                         }
                     }
@@ -54,12 +54,18 @@ struct FormView: View {
         }
         .tint(.orange)
         .padding()
+        .navigationTitle(viewModel.form.id)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
-        FormView(viewModel: FormViewModel())
+        FormView(viewModel: FormViewModel(
+            feedbackForm: .empty(),
+            onChange: { value in
+                print(value)
+            })
+        )
     }
 }

@@ -20,6 +20,7 @@ class FormViewModel: ObservableObject {
     private var bag = Set<AnyCancellable>()
     
     let service: FormService = FormService()
+    private var onChange: (Operation) -> Void
     @Published var form: FeedbackFormViewModel
     @Published var isValid: Bool = false
     @Published var error: Error? {
@@ -30,7 +31,8 @@ class FormViewModel: ObservableObject {
         }
     }
     
-    init(feedbackForm: FeedbackForm? = nil) {
+    init(feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
+        self.onChange = onChange
         self.form = FeedbackFormViewModel(feedbackForm: feedbackForm)
         self.isValid = self.form.isValid()
         form.objectWillChange.sink { _ in
@@ -41,8 +43,10 @@ class FormViewModel: ObservableObject {
     func delete(completion: @escaping () -> Void) {
         Task { @MainActor in
             do {
-                try await service.delete(key: form.id)
-                form = FeedbackFormViewModel()
+                let key = form.id
+                try await service.delete(key: key)
+                onChange(.delete(key))
+                form = FeedbackFormViewModel(feedbackForm: .empty())
                 completion()
             } catch {
                 self.error = error
@@ -56,6 +60,7 @@ class FormViewModel: ObservableObject {
             do {
                 let updatedForm = try await service.update(form: feedbackForm)
                 form = FeedbackFormViewModel(feedbackForm: updatedForm)
+                onChange(.update(updatedForm))
                 completion()
             } catch {
                 self.error = error
@@ -69,6 +74,7 @@ class FormViewModel: ObservableObject {
             do {
                 let createdForm = try await service.create(form: feedbackForm)
                 form = FeedbackFormViewModel(feedbackForm: createdForm)
+                onChange(.create(createdForm))
                 completion()
             } catch {
                 self.error = error

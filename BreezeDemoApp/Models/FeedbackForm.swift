@@ -13,5 +13,46 @@
 //    limitations under the License.
 
 import SharedModel
+import Foundation
 
 typealias FeedbackForm = Form
+
+extension Form {
+    static func empty() -> Form {
+        Form(
+            key: UUID().uuidString,
+            name: "Swift, Serverless and AWS Survey",
+            fields: [
+                Field(
+                    question: "Your knowledge about Swift?",
+                    choices: ["None", "Low", "Medium", "High"],
+                    type: .option
+                ),
+                Field(
+                    question: "Your knowledge about Serverless?",
+                    choices: ["None", "Low", "Medium", "High"],
+                    type: .option
+                ),
+                Field(
+                    question: "Your knowledge about AWS?",
+                    choices: ["None", "Low", "Medium", "High"],
+                    type: .option
+                ),
+                Field(
+                    question: "Your main development field?",
+                    choices: ["None", "iOS", "Lambda", "Vapor", "SwiftUI", "Swift"],
+                    type: .multiOption
+                ),
+                Field(
+                    question: "Did you try Breeze?",
+                    choices: ["None", "Yes", "No"],
+                    type: .option
+                ),
+                Field(
+                    question: "Do you plan to try Breeze? Why? When?",
+                    type: .text
+                )
+            ]
+        )
+    }
+}

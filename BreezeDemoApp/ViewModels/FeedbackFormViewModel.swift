@@ -94,52 +94,16 @@ class FeedbackFormViewModel: ObservableObject {
     }
     var updatedAt: String?
     
-    let defaultQuestions = [
-        FieldViewModel(
-            id: 0,
-            question: "Which level of knowledge you have about Swift?",
-            type: .options(["None", "Low", "Medium", "High"])
-        ),
-        FieldViewModel(
-            id: 1,
-            question: "Which level of knowledge you have about Serverless?",
-            type: .options(["None", "Low", "Medium", "High"])
-        ),
-        FieldViewModel(
-            id: 2,
-            question: "Which level of knowledge you have about AWS?",
-            type: .options(["None", "Low", "Medium", "High"])
-        ),
-        FieldViewModel(
-            id: 3,
-            question: "Which development experinces you have?",
-            type: .multiOptions(["None", "iOS", "Web", "Vapor", "NodeJS"])
-        ),
-        FieldViewModel(
-            id: 4,
-            question: "What do you like about Breeze?",
-            type: .text
-        )
-    ]
-    
-    init(feedbackForm: FeedbackForm? = nil) {
-        if let feedbackForm {
-            self.name = feedbackForm.name
-            self.id = feedbackForm.key
-            self.questions = []
-            for (index, field) in feedbackForm.fields.enumerated() {
-                self.questions.append(FieldViewModel(id: index, field: field))
-            }
-            self.createdAt = feedbackForm.createdAt
-            self.updatedAt = feedbackForm.updatedAt
-        } else {
-            self.name = "Swift, Serverless and AWS Survey"
-            self.id = UUID().uuidString
-            self.questions = defaultQuestions
-            self.createdAt = nil
-            self.updatedAt = nil
+    init(feedbackForm: FeedbackForm) {
+        self.name = feedbackForm.name
+        self.id = feedbackForm.key
+        self.questions = []
+        for (index, field) in feedbackForm.fields.enumerated() {
+            self.questions.append(FieldViewModel(id: index, field: field))
         }
-        
+        self.createdAt = feedbackForm.createdAt
+        self.updatedAt = feedbackForm.updatedAt
+
         for question in questions {
             question.objectWillChange.sink { _ in
                 self.objectWillChange.send()
