@@ -1,10 +1,16 @@
 service: swift-breeze-rest-form-api
-awsRegion: us-east-1
+awsRegion: eu-west-2
 swiftVersion: 5.7.3
 swiftConfiguration: release
 packageName: BreezeFormAPI
 buildPath: build
 cors: false
+authorizer: #optional
+         name: appleJWT
+         type: JWTAuthorizer
+         issuerUrl: https://appleid.apple.com
+         audience:
+             - APP_BUNDLE_IDENTIFIER #Change this with the App BUNDLE_IDENTIFIER
 breezeLambdaAPI:
     targetName: FormAPI
     itemCodable: Form

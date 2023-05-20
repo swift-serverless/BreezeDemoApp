@@ -27,16 +27,20 @@ class FormListViewModel: ObservableObject {
 
     private var bag = Set<AnyCancellable>()
 
-    let service: FormService = FormService()
+    let service: FormService = FormService(session: .shared)
     
     @Published var forms: [FeedbackForm] = []
     @Published var error: Error? {
         didSet {
             if let error {
-                print(error)
+                hasError = true
+            } else {
+                hasError = false
             }
         }
     }
+    
+    @Published var hasError: Bool = false
     
     func form(key: String) -> FeedbackForm {
         forms.first(where: { $0.key == key })!

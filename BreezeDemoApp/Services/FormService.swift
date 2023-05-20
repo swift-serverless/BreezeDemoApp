@@ -19,41 +19,47 @@ struct FormService {
     
     private let apiClient: BreezeLambdaAPIClient<FeedbackForm>
     
-    init() {
-        let headers: RequestHeaders = [
-            "Content-Type": "application/json",
-            "cache-control": "no-cache",
-            //"Authorization": "Bearer \(token)"
-        ]
-        guard var env = try? Environment.dev() else {
+    private let session: SessionService
+    
+    private var token: String? {
+        session.userSession?.jwtToken
+    }
+    
+    init(session: SessionService) {
+        guard var env = try? APIEnvironment.dev() else {
             fatalError("Invalid Environment")
         }
         env.logger = Logger()
-        self.apiClient = BreezeLambdaAPIClient<FeedbackForm>(env: env, path: "forms", headers: headers)
+        self.session = session
+        self.apiClient = BreezeLambdaAPIClient<FeedbackForm>(env: env, path: "forms", additionalHeaders: [:])
     }
     
     func create(form: FeedbackForm) async throws -> FeedbackForm {
-        try await apiClient.create(item: form)
+        try await apiClient.create(token: token, item: form)
     }
     
     func read(key: String) async throws -> FeedbackForm {
-        try await apiClient.read(key: key)
+        try await apiClient.read(token: token, key: key)
     }
     
     func update(form: FeedbackForm) async throws -> FeedbackForm {
-        try await apiClient.update(item: form)
+        try await apiClient.update(token: token, item: form)
     }
     
-    func delete(key: String) async throws {
-        try await apiClient.delete(key: key)
+    func delete(form: FeedbackForm) async throws {
+        guard let updatedAt = form.updatedAt,
+              let createdAt = form.createdAt else {
+            throw FormServiceError.invalidForm
+        }
+        try await apiClient.delete(token: token, key: form.key, createdAt: createdAt, updatedAt: updatedAt)
     }
     
     func list(startKey: String?, limit: Int?) async throws -> [FeedbackForm] {
-        try await apiClient.list(exclusiveStartKey: startKey, limit: limit)
+        try await apiClient.list(token: token, exclusiveStartKey: startKey, limit: limit)
     }
 }
 
-struct Environment {
+struct APIEnvironment {
     static func dev() throws -> APIClientEnv {
         try APIClientEnv(session: URLSession.shared, baseURL: "<API GATEWAY BASE URL FROM SERVERLESS DEPLOY>")
     }
@@ -71,4 +77,8 @@ struct Logger: APIClientLogging {
         let value = String(data: data, encoding: .utf8) ?? ""
         print(value)
     }
+}
+
+enum FormServiceError: Error {
+    case invalidForm
 }

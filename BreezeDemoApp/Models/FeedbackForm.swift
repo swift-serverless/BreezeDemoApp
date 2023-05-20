@@ -24,32 +24,27 @@ extension Form {
             name: "Swift, Serverless and AWS Survey",
             fields: [
                 Field(
-                    question: "Your knowledge about Swift?",
-                    choices: ["None", "Low", "Medium", "High"],
-                    type: .option
-                ),
-                Field(
-                    question: "Your knowledge about Serverless?",
-                    choices: ["None", "Low", "Medium", "High"],
-                    type: .option
-                ),
-                Field(
-                    question: "Your knowledge about AWS?",
-                    choices: ["None", "Low", "Medium", "High"],
-                    type: .option
-                ),
-                Field(
-                    question: "Your main development field?",
-                    choices: ["None", "iOS", "Lambda", "Vapor", "SwiftUI", "Swift"],
+                    question: "What is the main benefit of Serverless computing?",
+                    choices: ["Cost savings 💰", "Performance ⚡️", "Scalability 🚀", "Infrastructure as a Code 💨"],
                     type: .multiOption
                 ),
                 Field(
-                    question: "Did you try Breeze?",
-                    choices: ["None", "Yes", "No"],
+                    question: "If you start a new project, whould you use Serverless on AWS?",
+                    choices: ["No", "Very likely", "Yes"],
                     type: .option
                 ),
                 Field(
-                    question: "Do you plan to try Breeze? Why? When?",
+                    question: "Would you change your favourite coding language to start a Serverless project?",
+                    choices: ["No, I ❤️ Swift!", "Yes, but 😓", "Yes, I'm 💪"],
+                    type: .option
+                ),
+                Field(
+                    question: "As a Swift developer, what could help you to get into Serverless?",
+                    choices: ["Tutorials 📚", "Starting tool 💻", "A course 👩🏻‍🏫"],
+                    type: .multiOption
+                ),
+                Field(
+                    question: "Comments",
                     type: .text
                 )
             ]

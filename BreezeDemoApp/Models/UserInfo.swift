@@ -12,24 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-import SwiftUI
+import Foundation
 
-@main
-struct BreezeDemoApp: App {
-
-    @ObservedObject var session: SessionService = .shared
-    
-    var body: some Scene {
-        WindowGroup {
-            if !session.isLoggedIn {
-                LoginView(loginService: LoginService(session: session) { value in
-                    print(value)
-                })
-            } else {
-                FormListView() {
-                    session.logout()
-                }
-            }
-        }
+struct UserInfo: Codable {
+    let email: String
+    let name: PersonNameComponents
+    let userId: String
+    func displayName(style: PersonNameComponentsFormatter.Style = .default) -> String {
+        PersonNameComponentsFormatter.localizedString(from: name, style: style)
     }
 }

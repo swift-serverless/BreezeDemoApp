@@ -19,17 +19,21 @@ class FormViewModel: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
     
-    let service: FormService = FormService()
+    let service: FormService = FormService(session: .shared)
     private var onChange: (Operation) -> Void
     @Published var form: FeedbackFormViewModel
     @Published var isValid: Bool = false
     @Published var error: Error? {
         didSet {
             if let error {
-                print(error)
+                hasError = true
+            } else {
+                hasError = false
             }
         }
     }
+    
+    @Published var hasError: Bool = false
     
     init(feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
         self.onChange = onChange
@@ -41,11 +45,11 @@ class FormViewModel: ObservableObject {
     }
     
     func delete(completion: @escaping () -> Void) {
+        let feedbackForm = form.buildFeedbackForm()
         Task { @MainActor in
             do {
-                let key = form.id
-                try await service.delete(key: key)
-                onChange(.delete(key))
+                try await service.delete(form: feedbackForm)
+                onChange(.delete(form.id))
                 form = FeedbackFormViewModel(feedbackForm: .empty())
                 completion()
             } catch {

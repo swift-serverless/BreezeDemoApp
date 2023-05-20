@@ -55,6 +55,17 @@ struct FormView: View {
         .tint(.orange)
         .padding()
         .navigationTitle(viewModel.form.id)
+        .alert(isPresented: $viewModel.hasError) {
+            Alert(
+                title: Text("\(viewModel.error?.localizedDescription ?? "")"),
+                primaryButton: .default(
+                        Text("OK"), action: {
+                            self.viewModel.error = nil
+                        }),
+                secondaryButton: .cancel() {
+                    self.viewModel.error = nil
+            })
+        }
     }
 }
 

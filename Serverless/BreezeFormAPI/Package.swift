@@ -12,7 +12,8 @@ let package = Package(
         .executable(name: "FormAPI", targets: ["FormAPI"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-sprinter/Breeze.git", from: "0.1.0"),
+        // .package(url: "https://github.com/swift-sprinter/Breeze.git", from: "0.2.0"),
+        .package(url: "https://github.com/swift-sprinter/Breeze.git", branch: "feature/optimistic_lock"),
         .package(path: "../SharedModel")
     ],
     targets: [

@@ -24,6 +24,13 @@
 		9D39C76129FD2F2D00ADC345 /* FormService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C76029FD2F2D00ADC345 /* FormService.swift */; };
 		9D39C76429FD312600ADC345 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */; };
 		9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D6C9EE42A002A3B00B75660 /* SharedModel */; };
+		9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12A42A174FC100A063D9 /* LoginView.swift */; };
+		9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12A72A17504B00A063D9 /* KeychainAccess */; };
+		9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12AA2A17507800A063D9 /* JWTDecode */; };
+		9DAC12AD2A17509300A063D9 /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12AC2A17509300A063D9 /* SessionService.swift */; };
+		9DAC12AF2A1751B100A063D9 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12AE2A1751B100A063D9 /* UserSession.swift */; };
+		9DAC12B12A17520B00A063D9 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12B02A17520B00A063D9 /* LoginService.swift */; };
+		9DAC12B32A1752C100A063D9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12B22A1752C100A063D9 /* UserInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +71,12 @@
 		9D39C75F29FD21E800ADC345 /* BreezeLambdaAPIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BreezeLambdaAPIClient; path = ../BreezeLambdaAPIClient; sourceTree = "<group>"; };
 		9D39C76029FD2F2D00ADC345 /* FormService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormService.swift; sourceTree = "<group>"; };
 		9D6C9EE32A0029C600B75660 /* SharedModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SharedModel; path = Serverless/SharedModel; sourceTree = "<group>"; };
+		9DAC12A42A174FC100A063D9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		9DAC12AC2A17509300A063D9 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
+		9DAC12AE2A1751B100A063D9 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
+		9DAC12B02A17520B00A063D9 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		9DAC12B22A1752C100A063D9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		9DAC12B42A18E22C00A063D9 /* BreezeDemoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BreezeDemoApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +86,8 @@
 			files = (
 				9D39C76429FD312600ADC345 /* BreezeLambdaAPIClient in Frameworks */,
 				9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */,
+				9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */,
+				9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +115,7 @@
 				9D25608129FEA4CB003BA92A /* RoundButton.swift */,
 				9D25608A29FECF00003BA92A /* FieldView.swift */,
 				9D25608F29FEEBB3003BA92A /* FormListView.swift */,
+				9DAC12A42A174FC100A063D9 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -118,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				9D25608829FEB281003BA92A /* FeedbackForm.swift */,
+				9DAC12AE2A1751B100A063D9 /* UserSession.swift */,
+				9DAC12B22A1752C100A063D9 /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -125,7 +143,9 @@
 		9D25608E29FED171003BA92A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9DAC12AC2A17509300A063D9 /* SessionService.swift */,
 				9D39C76029FD2F2D00ADC345 /* FormService.swift */,
+				9DAC12B02A17520B00A063D9 /* LoginService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -155,6 +175,7 @@
 		9D39C73329FD07C200ADC345 /* BreezeDemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				9DAC12B42A18E22C00A063D9 /* BreezeDemoApp.entitlements */,
 				9D25608E29FED171003BA92A /* Services */,
 				9D25608D29FED150003BA92A /* Models */,
 				9D25608C29FED13D003BA92A /* ViewModels */,
@@ -226,6 +247,8 @@
 			packageProductDependencies = (
 				9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */,
 				9D6C9EE42A002A3B00B75660 /* SharedModel */,
+				9DAC12A72A17504B00A063D9 /* KeychainAccess */,
+				9DAC12AA2A17507800A063D9 /* JWTDecode */,
 			);
 			productName = BreezeDemoApp;
 			productReference = 9D39C73129FD07C200ADC345 /* BreezeDemoApp.app */;
@@ -299,6 +322,10 @@
 				Base,
 			);
 			mainGroup = 9D39C72829FD07C200ADC345;
+			packageReferences = (
+				9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+			);
 			productRefGroup = 9D39C73229FD07C200ADC345 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -344,8 +371,13 @@
 				9D25608529FEAC14003BA92A /* FeedbackFormViewModel.swift in Sources */,
 				9D25608B29FECF00003BA92A /* FieldView.swift in Sources */,
 				9D25608929FEB281003BA92A /* FeedbackForm.swift in Sources */,
+				9DAC12AF2A1751B100A063D9 /* UserSession.swift in Sources */,
+				9DAC12B32A1752C100A063D9 /* UserInfo.swift in Sources */,
 				9D25608229FEA4CB003BA92A /* RoundButton.swift in Sources */,
 				9D25609229FEF65A003BA92A /* FormListViewModel.swift in Sources */,
+				9DAC12B12A17520B00A063D9 /* LoginService.swift in Sources */,
+				9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */,
+				9DAC12AD2A17509300A063D9 /* SessionService.swift in Sources */,
 				9D25608729FEAD99003BA92A /* FormViewModel.swift in Sources */,
 				9D39C76129FD2F2D00ADC345 /* FormService.swift in Sources */,
 				9D39C73729FD07C200ADC345 /* FormView.swift in Sources */,
@@ -506,6 +538,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BreezeDemoApp/BreezeDemoApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BreezeDemoApp/Preview Content\"";
@@ -535,6 +568,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BreezeDemoApp/BreezeDemoApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BreezeDemoApp/Preview Content\"";
@@ -676,6 +710,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -684,6 +737,16 @@
 		9D6C9EE42A002A3B00B75660 /* SharedModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SharedModel;
+		};
+		9DAC12A72A17504B00A063D9 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		9DAC12AA2A17507800A063D9 /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			productName = JWTDecode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

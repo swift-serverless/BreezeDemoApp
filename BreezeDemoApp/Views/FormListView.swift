@@ -20,6 +20,8 @@ struct FormListView: View {
     @State private var path: [String] = []
     @State var showSheet: Bool = false
     
+    var close: () -> Void
+    
     var body: some View {
         NavigationStack(path: $path) {
             List(viewModel.forms, id: \.self.key) { form in
@@ -55,6 +57,13 @@ struct FormListView: View {
             )
             .navigationTitle("Forms")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Logout") {
+                        close()
+                    }
+                }
+            }
         }
         .onAppear {
             viewModel.list() {
@@ -75,6 +84,6 @@ struct FormListView: View {
 
 struct FormListView_Previews: PreviewProvider {
     static var previews: some View {
-        FormListView()
+        FormListView(close: {})
     }
 }

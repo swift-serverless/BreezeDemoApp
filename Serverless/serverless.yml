@@ -4,16 +4,23 @@ configValidationMode: warn
 useDotenv: false
 provider:
   name: aws
-  region: us-east-1
+  region: eu-west-2
   disableRollback: false
   runtime: provided.al2
   httpApi:
     payload: '2.0'
     cors: false
+    authorizers:
+      appleJWT:
+        identitySource: $request.header.Authorization
+        issuerUrl: https://appleid.apple.com
+        type: jwt
+        audience:
+        - com.andreascuderi.BreezeDemoApp
   architecture: arm64
   environment:
-    DYNAMO_DB_TABLE_NAME: ${self:custom.tableName}
     DYNAMO_DB_KEY: ${self:custom.keyName}
+    DYNAMO_DB_TABLE_NAME: ${self:custom.tableName}
   versionFunctions: true
   iam:
     role:
@@ -43,30 +50,6 @@ custom:
   tableName: forms-table-${sls:stage}
   keyName: formKey
 functions:
-  listFormAPI:
-    handler: list
-    memorySize: 256
-    description: '[${sls:stage}] get /forms'
-    events:
-    - httpApi:
-        path: /forms
-        method: get
-  readFormAPI:
-    handler: read
-    memorySize: 256
-    description: '[${sls:stage}] get /forms/{formKey}'
-    events:
-    - httpApi:
-        path: /forms/{formKey}
-        method: get
-  deleteFormAPI:
-    handler: delete
-    memorySize: 256
-    description: '[${sls:stage}] delete /forms/{formKey}'
-    events:
-    - httpApi:
-        path: /forms/{formKey}
-        method: delete
   createFormAPI:
     handler: create
     memorySize: 256
@@ -75,6 +58,38 @@ functions:
     - httpApi:
         path: /forms
         method: post
+        authorizer:
+          name: appleJWT
+  readFormAPI:
+    handler: read
+    memorySize: 256
+    description: '[${sls:stage}] get /forms/{formKey}'
+    events:
+    - httpApi:
+        path: /forms/{formKey}
+        method: get
+        authorizer:
+          name: appleJWT
+  deleteFormAPI:
+    handler: delete
+    memorySize: 256
+    description: '[${sls:stage}] delete /forms/{formKey}'
+    events:
+    - httpApi:
+        path: /forms/{formKey}
+        method: delete
+        authorizer:
+          name: appleJWT
+  listFormAPI:
+    handler: list
+    memorySize: 256
+    description: '[${sls:stage}] get /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: get
+        authorizer:
+          name: appleJWT
   updateFormAPI:
     handler: update
     memorySize: 256
@@ -83,16 +98,18 @@ functions:
     - httpApi:
         path: /forms
         method: put
+        authorizer:
+          name: appleJWT
 resources:
   Resources:
     FormAPITable:
-      Properties:
-        KeySchema:
-        - AttributeName: ${self:custom.keyName}
-          KeyType: HASH
-        AttributeDefinitions:
-        - AttributeType: S
-          AttributeName: ${self:custom.keyName}
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.tableName}
       Type: AWS::DynamoDB::Table
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+        - KeyType: HASH
+          AttributeName: ${self:custom.keyName}
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+        - AttributeName: ${self:custom.keyName}
+          AttributeType: S
