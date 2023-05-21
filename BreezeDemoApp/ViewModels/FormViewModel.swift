@@ -25,15 +25,17 @@ class FormViewModel: ObservableObject {
     @Published var isValid: Bool = false
     @Published var error: Error? {
         didSet {
-            if let error {
+            if error != nil {
                 hasError = true
             } else {
                 hasError = false
             }
         }
     }
-    
+    @Published var isLoading: Bool = false
     @Published var hasError: Bool = false
+    
+    private let clock = ContinuousClock()
     
     init(feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
         self.onChange = onChange
@@ -44,45 +46,57 @@ class FormViewModel: ObservableObject {
         }.store(in: &bag)
     }
     
-    func delete(completion: @escaping () -> Void) {
+    func delete() {
         let feedbackForm = form.buildFeedbackForm()
+        isLoading = true
         Task { @MainActor in
-            do {
-                try await service.delete(form: feedbackForm)
-                onChange(.delete(form.id))
-                form = FeedbackFormViewModel(feedbackForm: .empty())
-                completion()
-            } catch {
-                self.error = error
+            let time = await clock.measure {
+                do {
+                    try await service.delete(form: feedbackForm)
+                    onChange(.delete(form.id))
+                    form = FeedbackFormViewModel(feedbackForm: .empty())
+                } catch {
+                    self.error = error
+                }
             }
+            print("Deleted in \(time)")
+            isLoading = false
         }
     }
     
-    func update(completion: @escaping () -> Void) {
+    func update() {
         let feedbackForm = form.buildFeedbackForm()
+        isLoading = true
         Task { @MainActor in
-            do {
-                let updatedForm = try await service.update(form: feedbackForm)
-                form = FeedbackFormViewModel(feedbackForm: updatedForm)
-                onChange(.update(updatedForm))
-                completion()
-            } catch {
-                self.error = error
+            let time = await clock.measure {
+                do {
+                    let updatedForm = try await service.update(form: feedbackForm)
+                    form = FeedbackFormViewModel(feedbackForm: updatedForm)
+                    onChange(.update(updatedForm))
+                } catch {
+                    self.error = error
+                }
             }
+            print("Updated in \(time)")
+            isLoading = false
         }
     }
     
-    func create(completion: @escaping () -> Void) {
+    func create() {
         let feedbackForm = form.buildFeedbackForm()
+        isLoading = true
         Task { @MainActor in
-            do {
-                let createdForm = try await service.create(form: feedbackForm)
-                form = FeedbackFormViewModel(feedbackForm: createdForm)
-                onChange(.create(createdForm))
-                completion()
-            } catch {
-                self.error = error
+            let time = await clock.measure {
+                do {
+                    let createdForm = try await service.create(form: feedbackForm)
+                    form = FeedbackFormViewModel(feedbackForm: createdForm)
+                    onChange(.create(createdForm))
+                } catch {
+                    self.error = error
+                }
             }
+            print("Created in \(time)")
+            isLoading = false
         }
     }
 }

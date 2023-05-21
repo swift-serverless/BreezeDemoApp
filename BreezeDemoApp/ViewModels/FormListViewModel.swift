@@ -26,6 +26,7 @@ enum Operation {
 class FormListViewModel: ObservableObject {
 
     private var bag = Set<AnyCancellable>()
+    private let clock = ContinuousClock()
 
     let service: FormService = FormService(session: .shared)
     
@@ -63,27 +64,31 @@ class FormListViewModel: ObservableObject {
         forms = forms.sorted(by: { $0.key < $1.key })
     }
     
-    func read(key: String, completion: @escaping () -> Void) {
+    func read(key: String) {
         Task { @MainActor in
-            do {
-                let readedForm = try await service.read(key: key)
-                onChange(.read(readedForm))
-                completion()
-            } catch {
-                self.error = error
+            let time = await clock.measure {
+                do {
+                    let readedForm = try await service.read(key: key)
+                    onChange(.read(readedForm))
+                } catch {
+                    self.error = error
+                }
             }
+            print("Readed in \(time)")
         }
     }
     
-    func list(completion: @escaping () -> Void) {
+    func list() {
         Task { @MainActor in
-            do {
-                let list = try await service.list(startKey: nil, limit: 100)
-                self.forms = list.sorted(by: { $0.key < $1.key })
-                completion()
-            } catch {
-                self.error = error
+            let time = await clock.measure {
+                do {
+                    let list = try await service.list(startKey: nil, limit: 100)
+                    self.forms = list.sorted(by: { $0.key < $1.key })
+                } catch {
+                    self.error = error
+                }
             }
+            print("Listed in \(time)")
         }
     }
 }

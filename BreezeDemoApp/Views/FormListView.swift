@@ -19,6 +19,7 @@ struct FormListView: View {
     @StateObject var viewModel = FormListViewModel()
     @State private var path: [String] = []
     @State var showSheet: Bool = false
+    @State var isLoading: Bool = false
     
     var close: () -> Void
     
@@ -43,17 +44,15 @@ struct FormListView: View {
                 }
             }
             .refreshable {
-                viewModel.list() {
-                    print("LIST")
-                }
+                viewModel.list()
             }
             .listStyle(.plain)
-                .navigationBarItems(
-                    trailing: Button(action: {
-                        showSheet.toggle()
-                    }, label: {
-                        Text("+")
-                    })
+            .navigationBarItems(
+                trailing: Button(action: {
+                    showSheet.toggle()
+                }, label: {
+                    Text("+")
+                })
             )
             .navigationTitle("Forms")
             .navigationBarTitleDisplayMode(.inline)
@@ -66,9 +65,7 @@ struct FormListView: View {
             }
         }
         .onAppear {
-            viewModel.list() {
-                print("LIST")
-            }
+            viewModel.list()
         }
         .navigationViewStyle(.stack)
         .sheet(isPresented: $showSheet) {

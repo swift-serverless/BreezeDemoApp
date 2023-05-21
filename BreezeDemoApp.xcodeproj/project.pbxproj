@@ -77,6 +77,7 @@
 		9DAC12B02A17520B00A063D9 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		9DAC12B22A1752C100A063D9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		9DAC12B42A18E22C00A063D9 /* BreezeDemoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BreezeDemoApp.entitlements; sourceTree = "<group>"; };
+		9DAC12B52A1904D500A063D9 /* BreezeLambdaAPIClient.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = BreezeLambdaAPIClient.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +154,7 @@
 		9D39C72829FD07C200ADC345 = {
 			isa = PBXGroup;
 			children = (
+				9DAC12B52A1904D500A063D9 /* BreezeLambdaAPIClient.xctestplan */,
 				9D39C75E29FD21E800ADC345 /* Packages */,
 				9D39C73329FD07C200ADC345 /* BreezeDemoApp */,
 				9D39C74429FD07C400ADC345 /* BreezeDemoAppTests */,

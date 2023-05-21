@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "0A159867-8BC9-476C-BB37-2850D0D49121",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "BreezeLambdaAPIClientTests",
+        "name" : "BreezeLambdaAPIClientTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -37,13 +37,16 @@ struct RoundButton: View {
 struct RoundButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            RoundButton(text: "Text", enabled: .constant(true)) {
-                print("click")
-            }.padding()
-            
-        RoundButton(text: "Text", enabled: .constant(false)) {
-                print("click")
-            }.padding()
+            RoundButton(
+                text: "Text",
+                enabled: .constant(true)) {
+                    print("click")
+                }.padding()
+            RoundButton(
+                text: "Text",
+                enabled: .constant(false)) {
+                    print("click")
+                }.padding()
         }
     }
 }
