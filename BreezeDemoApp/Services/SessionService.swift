@@ -77,6 +77,9 @@ final class SessionService: ObservableObject {
             self.userSession = nil
             self.isLoggedIn = false
         }
+#if targetEnvironment(simulator)
+        self.isLoggedIn = true
+#endif
     }
     
     func logout() {

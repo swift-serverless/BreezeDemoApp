@@ -20,64 +20,70 @@ struct FormView: View {
     @StateObject var viewModel: FormViewModel
 
     var body: some View {
-        if viewModel.isLoading {
-            ProgressView()
-        } else {
-            ScrollView(.vertical) {
-                Text(viewModel.form.name).font(.title)
-                LazyVStack(alignment: .leading, spacing: 10) {
-                    ForEach(viewModel.form.questions, id: \.self.id) {
-                        FieldView(viewModel: $0)
-                    }
-                    if viewModel.form.isNew {
-                        RoundButton(
-                            text: "Submit",
-                            enabled: $viewModel.isValid,
-                            action: viewModel.create
-                        )
-                    } else {
-                        VStack {
-                            RoundButton(
-                                text: "Update",
-                                enabled: $viewModel.isValid,
-                                action: viewModel.update
-                            )
-                            RoundButton(
-                                text: "Delete",
-                                color: .red,
-                                enabled: .constant(true),
-                                action: viewModel.delete
-                            )
+            ZStack {
+                ScrollView(.vertical) {
+                    Text(viewModel.form.name).font(.title)
+                    LazyVStack(alignment: .leading, spacing: 10) {
+                        ForEach(viewModel.form.questions, id: \.self.id) {
+                            FieldView(viewModel: $0)
                         }
-                    }
-                }.padding()
-            }
-            .tint(.orange)
-            .padding()
-            .navigationTitle(viewModel.form.id)
-            .alert(isPresented: $viewModel.hasError) {
-                Alert(
-                    title: Text("\(viewModel.error?.localizedDescription ?? "")"),
-                    primaryButton: .default(
-                        Text("OK"), action: {
+                        if viewModel.form.isNew {
+                            RoundButton(
+                                text: "Submit",
+                                enabled: $viewModel.isValid,
+                                action: viewModel.create
+                            )
+                        } else {
+                            VStack {
+                                RoundButton(
+                                    text: "Update",
+                                    enabled: $viewModel.isValid,
+                                    action: viewModel.update
+                                )
+                                RoundButton(
+                                    text: "Delete",
+                                    color: .red,
+                                    enabled: .constant(true),
+                                    action: viewModel.delete
+                                )
+                            }
+                        }
+                    }.padding()
+                }
+                .tint(.orange)
+                .padding()
+                .navigationTitle(viewModel.form.id)
+                .alert(isPresented: $viewModel.hasError) {
+                    Alert(
+                        title: Text("\(viewModel.error?.localizedDescription ?? "")"),
+                        primaryButton: .default(
+                            Text("OK"), action: {
+                                self.viewModel.error = nil
+                            }),
+                        secondaryButton: .cancel() {
                             self.viewModel.error = nil
-                        }),
-                    secondaryButton: .cancel() {
-                        self.viewModel.error = nil
-                    })
+                        })
+                }
+                if viewModel.isLoading {
+                    LoadingView()
+                }
             }
         }
-    }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct FormView_Previews: PreviewProvider {
+    
+    static let service = MockFormService()
     
     static var previews: some View {
-        FormView(viewModel: FormViewModel(
-            feedbackForm: .empty(),
-            onChange: { value in
-                print(value)
-            })
+        FormView(
+            viewModel: FormViewModel(
+                service: service,
+                feedbackForm: .empty(),
+                onChange: { value in
+                    print(value)
+                }
+            )
         )
     }
 }

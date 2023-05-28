@@ -15,7 +15,15 @@
 import Foundation
 import BreezeLambdaAPIClient
 
-struct FormService {
+protocol FormServing {
+    func create(form: FeedbackForm) async throws -> FeedbackForm
+    func read(key: String) async throws -> FeedbackForm
+    func update(form: FeedbackForm) async throws -> FeedbackForm
+    func delete(form: FeedbackForm) async throws
+    func list(startKey: String?, limit: Int?) async throws -> [FeedbackForm]
+}
+
+struct FormService: FormServing {
     
     private let apiClient: BreezeLambdaAPIClient<FeedbackForm>
     
@@ -81,4 +89,14 @@ struct Logger: APIClientLogging {
 
 enum FormServiceError: Error {
     case invalidForm
+}
+
+struct FormServiceBuilder {
+    static func build() -> FormServing {
+#if targetEnvironment(simulator)
+        return MockFormService()
+#else
+        return FormService(session: .shared)
+#endif
+    }
 }

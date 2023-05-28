@@ -10,7 +10,7 @@ authorizer: #optional
          type: JWTAuthorizer
          issuerUrl: https://appleid.apple.com
          audience:
-             - APP_BUNDLE_IDENTIFIER #Change this with the App BUNDLE_IDENTIFIER
+             - com.andreascuderi.BreezeDemoApp #Change this with the App BUNDLE_IDENTIFIER
 breezeLambdaAPI:
     targetName: FormAPI
     itemCodable: Form

@@ -16,10 +16,17 @@ import SwiftUI
 
 struct FormListView: View {
     
-    @StateObject var viewModel = FormListViewModel()
+    private let service: FormServing
+    @ObservedObject var viewModel: FormListViewModel
     @State private var path: [String] = []
     @State var showSheet: Bool = false
     @State var isLoading: Bool = false
+    
+    init(service: FormServing, close: @escaping () -> Void) {
+        self.close = close
+        self.service = service
+        self.viewModel = FormListViewModel(service: service)
+    }
     
     var close: () -> Void
     
@@ -27,14 +34,11 @@ struct FormListView: View {
         NavigationStack(path: $path) {
             List(viewModel.forms, id: \.self.key) { form in
                 NavigationLink(value: form.key) {
-                    VStack(alignment: .leading) {
-                        Text("Created: \(form.createdAt ?? "")")
-                        Text("Updated: \(form.updatedAt ?? "")")
-                        Text(form.key)
-                    }.fontWeight(.light)
+                    FormSummary(form: form)
                 }
                 .navigationDestination(for: String.self) { key in
                     FormView(viewModel: FormViewModel(
+                        service: service,
                         feedbackForm: viewModel.form(key: key),
                         onChange: { operation in
                         viewModel.onChange(operation)
@@ -70,7 +74,10 @@ struct FormListView: View {
         .navigationViewStyle(.stack)
         .sheet(isPresented: $showSheet) {
             FormView(
-                viewModel: FormViewModel(feedbackForm: .empty(), onChange: { operation in
+                viewModel: FormViewModel(
+                    service: service,
+                    feedbackForm: .empty(),
+                    onChange: { operation in
                     viewModel.onChange(operation)
                     showSheet.toggle()
                 })
@@ -80,7 +87,10 @@ struct FormListView: View {
 }
 
 struct FormListView_Previews: PreviewProvider {
+    
+    static let service = MockFormService()
+    
     static var previews: some View {
-        FormListView(close: {})
+        FormListView(service: service, close: {})
     }
 }

@@ -18,8 +18,7 @@ import Combine
 class FormViewModel: ObservableObject {
     
     private var bag = Set<AnyCancellable>()
-    
-    let service: FormService = FormService(session: .shared)
+    let service: FormServing
     private var onChange: (Operation) -> Void
     @Published var form: FeedbackFormViewModel
     @Published var isValid: Bool = false
@@ -37,7 +36,8 @@ class FormViewModel: ObservableObject {
     
     private let clock = ContinuousClock()
     
-    init(feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
+    init(service: FormServing, feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
+        self.service = service
         self.onChange = onChange
         self.form = FeedbackFormViewModel(feedbackForm: feedbackForm)
         self.isValid = self.form.isValid()

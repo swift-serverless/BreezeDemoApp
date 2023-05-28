@@ -28,12 +28,16 @@ class FormListViewModel: ObservableObject {
     private var bag = Set<AnyCancellable>()
     private let clock = ContinuousClock()
 
-    let service: FormService = FormService(session: .shared)
+    let service: FormServing
     
+    init(service: FormServing) {
+        self.service = service
+    }
+     
     @Published var forms: [FeedbackForm] = []
     @Published var error: Error? {
         didSet {
-            if let error {
+            if error != nil {
                 hasError = true
             } else {
                 hasError = false

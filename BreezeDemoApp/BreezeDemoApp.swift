@@ -17,7 +17,7 @@ import SwiftUI
 @main
 struct BreezeDemoApp: App {
 
-    @ObservedObject var session: SessionService = .shared
+    @StateObject var session: SessionService = .shared
     
     var body: some Scene {
         WindowGroup {
@@ -26,7 +26,7 @@ struct BreezeDemoApp: App {
                     print(value)
                 })
             } else {
-                FormListView() {
+                FormListView(service: FormServiceBuilder.build()) {
                     session.logout()
                 }
             }

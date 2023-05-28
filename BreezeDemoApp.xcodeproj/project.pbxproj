@@ -23,7 +23,10 @@
 		9D39C75229FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C75129FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift */; };
 		9D39C76129FD2F2D00ADC345 /* FormService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C76029FD2F2D00ADC345 /* FormService.swift */; };
 		9D39C76429FD312600ADC345 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */; };
+		9D4027A62A1D629D00982F5B /* MockFormService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4027A52A1D629D00982F5B /* MockFormService.swift */; };
 		9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D6C9EE42A002A3B00B75660 /* SharedModel */; };
+		9D978E4B2A229BCF00473E21 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4A2A229BCF00473E21 /* LoadingView.swift */; };
+		9D978E4D2A229E7400473E21 /* FormSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4C2A229E7400473E21 /* FormSummary.swift */; };
 		9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12A42A174FC100A063D9 /* LoginView.swift */; };
 		9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12A72A17504B00A063D9 /* KeychainAccess */; };
 		9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12AA2A17507800A063D9 /* JWTDecode */; };
@@ -70,7 +73,10 @@
 		9D39C75129FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreezeDemoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9D39C75F29FD21E800ADC345 /* BreezeLambdaAPIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BreezeLambdaAPIClient; path = ../BreezeLambdaAPIClient; sourceTree = "<group>"; };
 		9D39C76029FD2F2D00ADC345 /* FormService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormService.swift; sourceTree = "<group>"; };
+		9D4027A52A1D629D00982F5B /* MockFormService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFormService.swift; sourceTree = "<group>"; };
 		9D6C9EE32A0029C600B75660 /* SharedModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SharedModel; path = Serverless/SharedModel; sourceTree = "<group>"; };
+		9D978E4A2A229BCF00473E21 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		9D978E4C2A229E7400473E21 /* FormSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSummary.swift; sourceTree = "<group>"; };
 		9DAC12A42A174FC100A063D9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9DAC12AC2A17509300A063D9 /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		9DAC12AE2A1751B100A063D9 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
@@ -117,6 +123,8 @@
 				9D25608A29FECF00003BA92A /* FieldView.swift */,
 				9D25608F29FEEBB3003BA92A /* FormListView.swift */,
 				9DAC12A42A174FC100A063D9 /* LoginView.swift */,
+				9D978E4A2A229BCF00473E21 /* LoadingView.swift */,
+				9D978E4C2A229E7400473E21 /* FormSummary.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -144,6 +152,7 @@
 		9D25608E29FED171003BA92A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9D4027A42A1D627F00982F5B /* MockServices */,
 				9DAC12AC2A17509300A063D9 /* SessionService.swift */,
 				9D39C76029FD2F2D00ADC345 /* FormService.swift */,
 				9DAC12B02A17520B00A063D9 /* LoginService.swift */,
@@ -228,6 +237,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D4027A42A1D627F00982F5B /* MockServices */ = {
+			isa = PBXGroup;
+			children = (
+				9D4027A52A1D629D00982F5B /* MockFormService.swift */,
+			);
+			path = MockServices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,9 +391,11 @@
 				9D25608B29FECF00003BA92A /* FieldView.swift in Sources */,
 				9D25608929FEB281003BA92A /* FeedbackForm.swift in Sources */,
 				9DAC12AF2A1751B100A063D9 /* UserSession.swift in Sources */,
+				9D978E4B2A229BCF00473E21 /* LoadingView.swift in Sources */,
 				9DAC12B32A1752C100A063D9 /* UserInfo.swift in Sources */,
 				9D25608229FEA4CB003BA92A /* RoundButton.swift in Sources */,
 				9D25609229FEF65A003BA92A /* FormListViewModel.swift in Sources */,
+				9D978E4D2A229E7400473E21 /* FormSummary.swift in Sources */,
 				9DAC12B12A17520B00A063D9 /* LoginService.swift in Sources */,
 				9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */,
 				9DAC12AD2A17509300A063D9 /* SessionService.swift in Sources */,
@@ -385,6 +404,7 @@
 				9D39C73729FD07C200ADC345 /* FormView.swift in Sources */,
 				9D25609029FEEBB3003BA92A /* FormListView.swift in Sources */,
 				9D39C73529FD07C200ADC345 /* BreezeDemoApp.swift in Sources */,
+				9D4027A62A1D629D00982F5B /* MockFormService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
