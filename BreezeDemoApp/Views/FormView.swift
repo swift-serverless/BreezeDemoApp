@@ -20,66 +20,63 @@ struct FormView: View {
     @StateObject var viewModel: FormViewModel
 
     var body: some View {
-            ZStack {
-                ScrollView(.vertical) {
-                    Text(viewModel.form.name).font(.title)
-                    LazyVStack(alignment: .leading, spacing: 10) {
-                        ForEach(viewModel.form.questions, id: \.self.id) {
-                            FieldView(viewModel: $0)
-                        }
-                        if viewModel.form.isNew {
-                            RoundButton(
-                                text: "Submit",
-                                enabled: $viewModel.isValid,
-                                action: viewModel.create
-                            )
-                        } else {
-                            VStack {
-                                RoundButton(
-                                    text: "Update",
-                                    enabled: $viewModel.isValid,
-                                    action: viewModel.update
-                                )
-                                RoundButton(
-                                    text: "Delete",
-                                    color: .red,
-                                    enabled: .constant(true),
-                                    action: viewModel.delete
-                                )
-                            }
-                        }
-                    }.padding()
+        ScrollView(.vertical) {
+            Text(viewModel.form.name).font(.title)
+            LazyVStack(alignment: .leading, spacing: 10) {
+                ForEach(viewModel.form.questions, id: \.self.id) {
+                    FieldView(viewModel: $0)
                 }
-                .tint(.orange)
-                .padding()
-                .navigationTitle(viewModel.form.id)
-                .alert(isPresented: $viewModel.hasError) {
-                    Alert(
-                        title: Text("\(viewModel.error?.localizedDescription ?? "")"),
-                        primaryButton: .default(
-                            Text("OK"), action: {
-                                self.viewModel.error = nil
-                            }),
-                        secondaryButton: .cancel() {
-                            self.viewModel.error = nil
-                        })
+                if viewModel.form.isNew {
+                    RoundButton(
+                        text: "Submit",
+                        enabled: $viewModel.isValid,
+                        action: viewModel.create
+                    )
+                } else {
+                    VStack {
+                        RoundButton(
+                            text: "Update",
+                            enabled: $viewModel.isValid,
+                            action: viewModel.update
+                        )
+                        RoundButton(
+                            text: "Delete",
+                            color: .red,
+                            enabled: .constant(true),
+                            action: viewModel.delete
+                        )
+                    }
                 }
-                if viewModel.isLoading {
-                    LoadingView()
-                }
-            }
+            }.padding()
         }
+        .tint(.orange)
+        .padding()
+        .navigationTitle(viewModel.form.id)
+        .alert(isPresented: $viewModel.hasError) {
+            Alert(
+                title: Text("\(viewModel.error?.localizedDescription ?? "")"),
+                primaryButton: .default(
+                    Text("OK"), action: {
+                        self.viewModel.error = nil
+                    }),
+                secondaryButton: .cancel() {
+                    self.viewModel.error = nil
+                })
+        }
+    }
 }
 
 struct FormView_Previews: PreviewProvider {
     
     static let service = MockFormService()
+    static var isLoading = false
     
     static var previews: some View {
         FormView(
             viewModel: FormViewModel(
                 service: service,
                 feedbackForm: .empty(),
+                onLoading: { isLoading = $0 },
                 onChange: { value in
                     print(value)
                 }

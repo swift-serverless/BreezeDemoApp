@@ -31,57 +31,69 @@ struct FormListView: View {
     var close: () -> Void
     
     var body: some View {
-        NavigationStack(path: $path) {
-            List(viewModel.forms, id: \.self.key) { form in
-                NavigationLink(value: form.key) {
-                    FormSummary(form: form)
+        ZStack {
+            NavigationStack(path: $path) {
+                List(viewModel.forms, id: \.self.key) { form in
+                    NavigationLink(value: form.key) {
+                        FormSummary(form: form)
+                    }
+                    .navigationDestination(for: String.self) { key in
+                        FormView(viewModel: FormViewModel(
+                            service: service,
+                            feedbackForm: viewModel.form(key: key),
+                            onLoading: { isLoading = $0 },
+                            onChange: { operation in
+                                viewModel.onChange(operation)
+                                path = []
+                            }))
+                        .navigationTitle(form.key)
+                    }
                 }
-                .navigationDestination(for: String.self) { key in
-                    FormView(viewModel: FormViewModel(
-                        service: service,
-                        feedbackForm: viewModel.form(key: key),
-                        onChange: { operation in
-                        viewModel.onChange(operation)
-                        path = []
-                    }))
-                    .navigationTitle(form.key)
+                .refreshable {
+                    viewModel.list()
                 }
-            }
-            .refreshable {
-                viewModel.list()
-            }
-            .listStyle(.plain)
-            .navigationBarItems(
-                trailing: Button(action: {
-                    showSheet.toggle()
-                }, label: {
-                    Text("+")
-                })
-            )
-            .navigationTitle("Forms")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Logout") {
-                        close()
+                .listStyle(.plain)
+                .navigationBarItems(
+                    trailing: Button(action: {
+                        showSheet.toggle()
+                    }, label: {
+                        Text("+")
+                    })
+                )
+                .navigationTitle("Forms")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Logout") {
+                            close()
+                        }
                     }
                 }
             }
-        }
-        .onAppear {
-            viewModel.list()
-        }
-        .navigationViewStyle(.stack)
-        .sheet(isPresented: $showSheet) {
-            FormView(
-                viewModel: FormViewModel(
-                    service: service,
-                    feedbackForm: .empty(),
-                    onChange: { operation in
-                    viewModel.onChange(operation)
-                    showSheet.toggle()
-                })
-            )
+            .onAppear {
+                viewModel.list()
+            }
+            .navigationViewStyle(.stack)
+            .sheet(isPresented: $showSheet) {
+                ZStack {
+                    FormView(
+                        viewModel: FormViewModel(
+                            service: service,
+                            feedbackForm: .empty(),
+                            onLoading: { isLoading = $0 },
+                            onChange: { operation in
+                                viewModel.onChange(operation)
+                                showSheet.toggle()
+                            })
+                    )
+                    if isLoading {
+                        LoadingView()
+                    }
+                }
+            }
+            if isLoading {
+                LoadingView()
+            }
         }
     }
 }

@@ -35,14 +35,19 @@ class FormViewModel: ObservableObject {
     @Published var hasError: Bool = false
     
     private let clock = ContinuousClock()
+    private var onLoading: (Bool) -> Void
     
-    init(service: FormServing, feedbackForm: FeedbackForm, onChange: @escaping (Operation) -> Void) {
+    init(service: FormServing, feedbackForm: FeedbackForm, onLoading: @escaping (Bool) -> Void, onChange: @escaping (Operation) -> Void) {
         self.service = service
         self.onChange = onChange
         self.form = FeedbackFormViewModel(feedbackForm: feedbackForm)
+        self.onLoading = onLoading
         self.isValid = self.form.isValid()
         form.objectWillChange.sink { _ in
             self.isValid = self.form.isValid()
+        }.store(in: &bag)
+        $isLoading.sink { value in
+            self.onLoading(value)
         }.store(in: &bag)
     }
     
