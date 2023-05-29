@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "breezelambdaapiclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swift-sprinter/BreezeLambdaAPIClient.git",
+      "state" : {
+        "revision" : "c35db37e5ba23046b0ca0afb9fa4d5be056ce6ab",
+        "version" : "0.2.0"
+      }
+    },
+    {
       "identity" : "jwtdecode.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/auth0/JWTDecode.swift.git",

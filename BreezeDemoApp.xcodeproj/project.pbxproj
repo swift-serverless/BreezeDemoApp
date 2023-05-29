@@ -22,11 +22,11 @@
 		9D39C75029FD07C400ADC345 /* BreezeDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C74F29FD07C400ADC345 /* BreezeDemoAppUITests.swift */; };
 		9D39C75229FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C75129FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift */; };
 		9D39C76129FD2F2D00ADC345 /* FormService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C76029FD2F2D00ADC345 /* FormService.swift */; };
-		9D39C76429FD312600ADC345 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */; };
 		9D4027A62A1D629D00982F5B /* MockFormService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4027A52A1D629D00982F5B /* MockFormService.swift */; };
 		9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D6C9EE42A002A3B00B75660 /* SharedModel */; };
 		9D978E4B2A229BCF00473E21 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4A2A229BCF00473E21 /* LoadingView.swift */; };
 		9D978E4D2A229E7400473E21 /* FormSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4C2A229E7400473E21 /* FormSummary.swift */; };
+		9D978E502A24C04300473E21 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */; };
 		9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12A42A174FC100A063D9 /* LoginView.swift */; };
 		9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12A72A17504B00A063D9 /* KeychainAccess */; };
 		9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12AA2A17507800A063D9 /* JWTDecode */; };
@@ -71,7 +71,6 @@
 		9D39C74B29FD07C400ADC345 /* BreezeDemoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreezeDemoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D39C74F29FD07C400ADC345 /* BreezeDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreezeDemoAppUITests.swift; sourceTree = "<group>"; };
 		9D39C75129FD07C400ADC345 /* BreezeDemoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreezeDemoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		9D39C75F29FD21E800ADC345 /* BreezeLambdaAPIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BreezeLambdaAPIClient; path = ../BreezeLambdaAPIClient; sourceTree = "<group>"; };
 		9D39C76029FD2F2D00ADC345 /* FormService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormService.swift; sourceTree = "<group>"; };
 		9D4027A52A1D629D00982F5B /* MockFormService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFormService.swift; sourceTree = "<group>"; };
 		9D6C9EE32A0029C600B75660 /* SharedModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SharedModel; path = Serverless/SharedModel; sourceTree = "<group>"; };
@@ -91,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D39C76429FD312600ADC345 /* BreezeLambdaAPIClient in Frameworks */,
+				9D978E502A24C04300473E21 /* BreezeLambdaAPIClient in Frameworks */,
 				9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */,
 				9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */,
 				9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */,
@@ -226,7 +225,6 @@
 		9D39C75E29FD21E800ADC345 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				9D39C75F29FD21E800ADC345 /* BreezeLambdaAPIClient */,
 				9D6C9EE32A0029C600B75660 /* SharedModel */,
 			);
 			name = Packages;
@@ -264,10 +262,10 @@
 			);
 			name = BreezeDemoApp;
 			packageProductDependencies = (
-				9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */,
 				9D6C9EE42A002A3B00B75660 /* SharedModel */,
 				9DAC12A72A17504B00A063D9 /* KeychainAccess */,
 				9DAC12AA2A17507800A063D9 /* JWTDecode */,
+				9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */,
 			);
 			productName = BreezeDemoApp;
 			productReference = 9D39C73129FD07C200ADC345 /* BreezeDemoApp.app */;
@@ -344,6 +342,7 @@
 			packageReferences = (
 				9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */,
 			);
 			productRefGroup = 9D39C73229FD07C200ADC345 /* Products */;
 			projectDirPath = "";
@@ -733,6 +732,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swift-sprinter/BreezeLambdaAPIClient.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 		9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
@@ -752,13 +759,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9D39C76329FD312600ADC345 /* BreezeLambdaAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BreezeLambdaAPIClient;
-		};
 		9D6C9EE42A002A3B00B75660 /* SharedModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SharedModel;
+		};
+		9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */;
+			productName = BreezeLambdaAPIClient;
 		};
 		9DAC12A72A17504B00A063D9 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
