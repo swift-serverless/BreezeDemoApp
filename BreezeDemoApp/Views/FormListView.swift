@@ -57,15 +57,16 @@ struct FormListView: View {
                     trailing: Button(action: {
                         showSheet.toggle()
                     }, label: {
-                        Text("+")
+                        Text("+").bold()
                     })
                 )
                 .navigationTitle("Forms")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Logout") {
-                            close()
+                        
+                        Button(action: close) {
+                            Text("Logout").bold()
                         }
                     }
                 }

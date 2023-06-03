@@ -27,8 +27,12 @@ struct LoginView: View {
                 Text("Breeze Demo App")
                     .foregroundColor(.black)
                     .font(.title)
-                Text("💨")
-                    .font(.system(size: 100))
+                Text("Forms")
+                    .font(.system(size: 80))
+                    .foregroundColor(.orange)
+                Text("✏️")
+                    .font(.system(size: 180))
+                    .foregroundColor(.orange)
                 Spacer()
                 SignInWithAppleButton(.signIn) { request in
                     request.requestedScopes = [.email, .fullName]

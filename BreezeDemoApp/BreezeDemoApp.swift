@@ -28,7 +28,7 @@ struct BreezeDemoApp: App {
             } else {
                 FormListView(service: FormServiceBuilder.build()) {
                     session.logout()
-                }
+                }.tint(.orange)
             }
         }
     }

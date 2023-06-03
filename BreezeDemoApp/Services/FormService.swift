@@ -76,6 +76,7 @@ struct APIEnvironment {
 extension FeedbackForm: KeyedCodable {}
 
 struct Logger: APIClientLogging {
+    
     func log(request: URLRequest) {
         print(request)
     }
