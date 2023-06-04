@@ -16,7 +16,7 @@ provider:
         issuerUrl: https://appleid.apple.com
         type: jwt
         audience:
-        - com.andreascuderi.BreezeDemoApp
+        - com.andreascuderi.BreezeDemoApp # <- Update this with your app bundle identifier
   architecture: arm64
   environment:
     DYNAMO_DB_KEY: ${self:custom.keyName}

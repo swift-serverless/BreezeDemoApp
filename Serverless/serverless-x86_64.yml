@@ -14,7 +14,7 @@ provider:
       appleJWT:
         issuerUrl: https://appleid.apple.com
         audience:
-        - com.andreascuderi.BreezeDemoApp
+        - com.andreascuderi.BreezeDemoApp # <- Update this with your app bundle identifier
         type: jwt
         identitySource: $request.header.Authorization
   architecture: x86_64
