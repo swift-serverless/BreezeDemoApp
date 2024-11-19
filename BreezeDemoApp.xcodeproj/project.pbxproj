@@ -734,10 +734,10 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swift-sprinter/BreezeLambdaAPIClient.git";
+			repositoryURL = "https://github.com/swift-serverless/BreezeLambdaAPIClient.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.0;
+				minimumVersion = 0.2.1;
 			};
 		};
 		9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
