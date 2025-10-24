@@ -26,7 +26,6 @@
 		9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */ = {isa = PBXBuildFile; productRef = 9D6C9EE42A002A3B00B75660 /* SharedModel */; };
 		9D978E4B2A229BCF00473E21 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4A2A229BCF00473E21 /* LoadingView.swift */; };
 		9D978E4D2A229E7400473E21 /* FormSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D978E4C2A229E7400473E21 /* FormSummary.swift */; };
-		9D978E502A24C04300473E21 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */; };
 		9DAC12A52A174FC100A063D9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12A42A174FC100A063D9 /* LoginView.swift */; };
 		9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12A72A17504B00A063D9 /* KeychainAccess */; };
 		9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 9DAC12AA2A17507800A063D9 /* JWTDecode */; };
@@ -34,6 +33,7 @@
 		9DAC12AF2A1751B100A063D9 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12AE2A1751B100A063D9 /* UserSession.swift */; };
 		9DAC12B12A17520B00A063D9 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12B02A17520B00A063D9 /* LoginService.swift */; };
 		9DAC12B32A1752C100A063D9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC12B22A1752C100A063D9 /* UserInfo.swift */; };
+		BD1C9C082EAB7DB400598E04 /* BreezeLambdaAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = BD1C9C072EAB7DB400598E04 /* BreezeLambdaAPIClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D978E502A24C04300473E21 /* BreezeLambdaAPIClient in Frameworks */,
+				BD1C9C082EAB7DB400598E04 /* BreezeLambdaAPIClient in Frameworks */,
 				9D6C9EE52A002A3B00B75660 /* SharedModel in Frameworks */,
 				9DAC12AB2A17507800A063D9 /* JWTDecode in Frameworks */,
 				9DAC12A82A17504B00A063D9 /* KeychainAccess in Frameworks */,
@@ -263,7 +263,7 @@
 				9D6C9EE42A002A3B00B75660 /* SharedModel */,
 				9DAC12A72A17504B00A063D9 /* KeychainAccess */,
 				9DAC12AA2A17507800A063D9 /* JWTDecode */,
-				9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */,
+				BD1C9C072EAB7DB400598E04 /* BreezeLambdaAPIClient */,
 			);
 			productName = BreezeDemoApp;
 			productReference = 9D39C73129FD07C200ADC345 /* BreezeDemoApp.app */;
@@ -340,7 +340,7 @@
 			packageReferences = (
 				9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
-				9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */,
+				BD1C9C062EAB7DB400598E04 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */,
 			);
 			productRefGroup = 9D39C73229FD07C200ADC345 /* Products */;
 			projectDirPath = "";
@@ -558,10 +558,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BreezeDemoApp/BreezeDemoApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BreezeDemoApp/Preview Content\"";
-				DEVELOPMENT_TEAM = ACVC7ZU5MV;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Forms;
@@ -577,6 +577,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreascuderi.BreezeDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -589,10 +590,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BreezeDemoApp/BreezeDemoApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BreezeDemoApp/Preview Content\"";
-				DEVELOPMENT_TEAM = ACVC7ZU5MV;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Forms;
@@ -608,6 +609,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.andreascuderi.BreezeDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -732,14 +734,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swift-serverless/BreezeLambdaAPIClient.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.1;
-			};
-		};
 		9DAC12A62A17504B00A063D9 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
@@ -756,17 +750,20 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		BD1C9C062EAB7DB400598E04 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swift-serverless/BreezeLambdaAPIClient.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		9D6C9EE42A002A3B00B75660 /* SharedModel */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SharedModel;
-		};
-		9D978E4F2A24C04300473E21 /* BreezeLambdaAPIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9D978E4E2A24C04300473E21 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */;
-			productName = BreezeLambdaAPIClient;
 		};
 		9DAC12A72A17504B00A063D9 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -777,6 +774,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9DAC12A92A17507800A063D9 /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
+		};
+		BD1C9C072EAB7DB400598E04 /* BreezeLambdaAPIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD1C9C062EAB7DB400598E04 /* XCRemoteSwiftPackageReference "BreezeLambdaAPIClient" */;
+			productName = BreezeLambdaAPIClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
