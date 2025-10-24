@@ -1,4 +1,4 @@
-#    Copyright 2023 (c) Andrea Scuderi - https://github.com/swift-sprinter
+#    Copyright 2023 (c) Andrea Scuderi - https://github.com/swift-serverless
 
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-SWIFT_VERSION=5.7.3
+SWIFT_VERSION=6.2.0
 
 SWIFT_DOCKER_IMAGE=swift-amazonlinux2-builder:$(SWIFT_VERSION)
 SWIFT_CONFIGURATION=release
@@ -33,7 +33,7 @@ archive_lambda: create_build_directory
 		--volume "$(MOUNT_ROOT)/:/src" \
 		--workdir "/src/$(DOCKER_PROJECT_PATH)" \
 		$(SWIFT_DOCKER_IMAGE) \
-		/bin/bash -c "swift package archive -c $(SWIFT_CONFIGURATION) --verbose --output-path /src/$(DOCKER_BUILD_PATH)"
+		/bin/bash -c "swift package archive -c $(SWIFT_CONFIGURATION) --verbose --output-path /src/$(DOCKER_BUILD_PATH) --allow-network-connections docker"
 
 build_lambda:
 	docker run \

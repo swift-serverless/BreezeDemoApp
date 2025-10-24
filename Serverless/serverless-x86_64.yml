@@ -6,21 +6,21 @@ provider:
   name: aws
   region: eu-west-2
   disableRollback: false
-  runtime: provided
+  runtime: provided.al2
   httpApi:
     payload: '2.0'
     cors: false
     authorizers:
       appleJWT:
         issuerUrl: https://appleid.apple.com
-        audience:
-        - com.andreascuderi.BreezeDemoApp # <- Update this with your app bundle identifier
         type: jwt
+        audience:
+        - com.andreascuderi.BreezeDemoApp
         identitySource: $request.header.Authorization
   architecture: x86_64
   environment:
-    DYNAMO_DB_KEY: ${self:custom.keyName}
     DYNAMO_DB_TABLE_NAME: ${self:custom.tableName}
+    DYNAMO_DB_KEY: ${self:custom.keyName}
   versionFunctions: true
   iam:
     role:
@@ -60,6 +60,26 @@ functions:
         method: get
         authorizer:
           name: appleJWT
+  listFormAPI:
+    handler: list
+    memorySize: 256
+    description: '[${sls:stage}] get /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: get
+        authorizer:
+          name: appleJWT
+  updateFormAPI:
+    handler: update
+    memorySize: 256
+    description: '[${sls:stage}] put /forms'
+    events:
+    - httpApi:
+        path: /forms
+        method: put
+        authorizer:
+          name: appleJWT
   deleteFormAPI:
     handler: delete
     memorySize: 256
@@ -80,36 +100,16 @@ functions:
         method: post
         authorizer:
           name: appleJWT
-  updateFormAPI:
-    handler: update
-    memorySize: 256
-    description: '[${sls:stage}] put /forms'
-    events:
-    - httpApi:
-        path: /forms
-        method: put
-        authorizer:
-          name: appleJWT
-  listFormAPI:
-    handler: list
-    memorySize: 256
-    description: '[${sls:stage}] get /forms'
-    events:
-    - httpApi:
-        path: /forms
-        method: get
-        authorizer:
-          name: appleJWT
 resources:
   Resources:
     FormAPITable:
+      Type: AWS::DynamoDB::Table
       Properties:
-        AttributeDefinitions:
-        - AttributeType: S
-          AttributeName: ${self:custom.keyName}
+        TableName: ${self:custom.tableName}
         KeySchema:
         - AttributeName: ${self:custom.keyName}
           KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.tableName}
-      Type: AWS::DynamoDB::Table
+        AttributeDefinitions:
+        - AttributeType: S
+          AttributeName: ${self:custom.keyName}

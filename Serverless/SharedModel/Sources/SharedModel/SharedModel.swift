@@ -14,13 +14,13 @@
 
 import Foundation
 
-public enum FieldType: String, Codable {
+public enum FieldType: String, Codable, Sendable {
     case text
     case option
     case multiOption
 }
 
-public struct Field: Codable {
+public struct Field: Codable, Sendable {
     public let question: String
     public let answer: String?
     public let choices: [String]?
@@ -36,7 +36,7 @@ public struct Field: Codable {
     }
 }
 
-public struct Form: Codable {
+public struct Form: Codable, Sendable {
     
     public var key: String
     public let name: String

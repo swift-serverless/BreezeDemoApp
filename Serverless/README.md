@@ -1,6 +1,6 @@
 # Breeze Form API
 
-## Serverless REST API wiht Breeze
+## Serverless REST API with Breeze
 
 The example shows how to build a Rest API based on an `Form` swift struct.
 
