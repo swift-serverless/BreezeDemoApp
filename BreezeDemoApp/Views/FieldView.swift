@@ -15,23 +15,18 @@
 import SwiftUI
 
 struct FieldTextView: View {
-    
-    @StateObject var viewModel: FieldViewModel
+
+    @ObservedObject var viewModel: FieldViewModel
     
     var body: some View {
-        TextField("",
-                  text: Binding(get: {
-            viewModel.answer
-        }, set: { value, _ in
-            viewModel.answer = value
-        }))
+        TextField("", text: $viewModel.answer)
         .textFieldStyle(.roundedBorder)
     }
 }
 
 struct FieldOptionView: View {
     
-    @StateObject var viewModel: FieldViewModel
+    @ObservedObject var viewModel: FieldViewModel
     @State var options: [String]
     
     var body: some View {
@@ -54,7 +49,7 @@ struct FieldOptionView: View {
 
 struct FieldMultiOptionView: View {
     
-    @StateObject var viewModel: FieldViewModel
+    @ObservedObject var viewModel: FieldViewModel
     @State var options: [String]
     
     var body: some View {
@@ -73,7 +68,7 @@ struct FieldMultiOptionView: View {
 
 struct FieldView: View {
     
-    @StateObject var viewModel: FieldViewModel
+    @ObservedObject var viewModel: FieldViewModel
     
     var body: some View {
         VStack(alignment: .leading) {

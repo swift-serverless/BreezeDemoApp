@@ -37,17 +37,17 @@ struct FormListView: View {
                     NavigationLink(value: form.key) {
                         FormSummary(form: form)
                     }
-                    .navigationDestination(for: String.self) { key in
-                        FormView(viewModel: FormViewModel(
-                            service: service,
-                            feedbackForm: viewModel.form(key: key),
-                            onLoading: { isLoading = $0 },
-                            onChange: { operation in
-                                viewModel.onChange(operation)
-                                path = []
-                            }))
-                        .navigationTitle(form.key)
-                    }
+                }
+                .navigationDestination(for: String.self) { key in
+                    FormView(viewModel: FormViewModel(
+                        service: service,
+                        feedbackForm: viewModel.form(key: key),
+                        onLoading: { isLoading = $0 },
+                        onChange: { operation in
+                            viewModel.onChange(operation)
+                            path = []
+                        }))
+                    .navigationTitle(key)
                 }
                 .refreshable {
                     viewModel.list()
@@ -76,21 +76,12 @@ struct FormListView: View {
             }
             .navigationViewStyle(.stack)
             .sheet(isPresented: $showSheet) {
-                ZStack {
-                    FormView(
-                        viewModel: FormViewModel(
-                            service: service,
-                            feedbackForm: .empty(),
-                            onLoading: { isLoading = $0 },
-                            onChange: { operation in
-                                viewModel.onChange(operation)
-                                showSheet.toggle()
-                            })
-                    )
-                    if isLoading {
-                        LoadingView()
-                    }
-                }
+                NewFormView(
+                    service: service,
+                    viewModel: viewModel,
+                    isLoading: $isLoading,
+                    showSheet: $showSheet
+                )
             }
             if isLoading {
                 LoadingView()

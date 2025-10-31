@@ -26,7 +26,7 @@ class FieldViewModel: Identifiable, ObservableObject {
     let id: Int
     let question: String
     let type: QuestionType
-    var answer: String {
+    @Published var answer: String {
         didSet {
             objectWillChange.send()
         }

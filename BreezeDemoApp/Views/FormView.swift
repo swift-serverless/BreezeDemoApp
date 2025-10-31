@@ -51,7 +51,6 @@ struct FormView: View {
         }
         .tint(.orange)
         .padding()
-        .navigationTitle(viewModel.form.id)
         .alert(isPresented: $viewModel.hasError) {
             Alert(
                 title: Text("\(viewModel.error?.localizedDescription ?? "")"),
