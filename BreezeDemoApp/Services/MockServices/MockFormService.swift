@@ -20,7 +20,7 @@ enum MockServiceError: Error {
     case cannotUpdate
 }
 
-class MockFormService: FormServing {
+final class MockFormService: FormServing, @unchecked Sendable {
     
     private var forms: [FeedbackForm] = []
     

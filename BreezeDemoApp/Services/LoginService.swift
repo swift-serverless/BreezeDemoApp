@@ -17,13 +17,13 @@ import AuthenticationServices
 import JWTDecode
 
 
-class LoginService: NSObject {
+final class LoginService: NSObject, Sendable {
     
     let session: SessionService
     
-    private let onLoginCompletion: (Bool) -> Void
+    private let onLoginCompletion: @Sendable (Bool) -> Void
     
-    init(session: SessionService, completion: @escaping (Bool) -> Void) {
+    init(session: SessionService, completion: @Sendable @escaping (Bool) -> Void) {
         self.session = session
         self.onLoginCompletion = completion
         super.init()
@@ -37,10 +37,13 @@ extension LoginService: ASAuthorizationControllerDelegate {
     }
     
     func storeUserSession(credential: ASAuthorizationAppleIDCredential) throws {
-        if let data = credential.identityToken,
-           let token = String(data: data, encoding: .utf8) {
-            let userSession = UserSession.init(jwtToken: token)
-            session.store(session: userSession)
+        Task { @MainActor in
+            if let data = credential.identityToken,
+               let token = String(data: data, encoding: .utf8) {
+                
+                let userSession = UserSession.init(jwtToken: token)
+                await session.store(session: userSession)
+            }
         }
     }
     

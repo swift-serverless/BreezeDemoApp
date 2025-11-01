@@ -18,17 +18,26 @@ import SwiftUI
 struct BreezeDemoApp: App {
 
     @StateObject var session: SessionService = .shared
+    @State private var isLoggedIn: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            if !session.isLoggedIn {
-                LoginView(loginService: LoginService(session: session) { value in
-                    print(value)
-                })
-            } else {
-                FormListView(service: FormServiceBuilder.build()) {
-                    session.logout()
-                }.tint(.orange)
+            VStack {
+                if !isLoggedIn {
+                    LoginView(loginService: LoginService(session: session) { value in
+                        print(value)
+                    })
+                } else {
+                    FormListView(service: FormServiceBuilder.build()) {
+                        Task {
+                            await session.logout()
+                        }
+                    }.tint(.orange)
+                }
+            }.task {
+                for await isLoggedIn in session.isLoggedIn {
+                    self.isLoggedIn = isLoggedIn
+                }
             }
         }
     }

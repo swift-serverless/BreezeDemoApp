@@ -23,9 +23,7 @@ enum Operation {
 
 @Observable
 class FormListViewModel {
-
-    private let clock = ContinuousClock()
-
+    
     let service: FormServing
     
     init(service: FormServing) {
@@ -66,7 +64,10 @@ class FormListViewModel {
         forms = forms.sorted(by: { $0.key < $1.key })
     }
     
+    @MainActor
     func read(key: String) {
+        let clock = ContinuousClock()
+        let service = self.service
         Task { @MainActor in
             let time = await clock.measure {
                 do {
@@ -80,7 +81,10 @@ class FormListViewModel {
         }
     }
     
+    @MainActor
     func list() {
+        let clock = ContinuousClock()
+        let service = self.service
         Task { @MainActor in
             let time = await clock.measure {
                 do {

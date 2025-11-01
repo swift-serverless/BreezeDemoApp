@@ -31,8 +31,10 @@ struct NewFormView: View {
                         feedbackForm: .empty(),
                         onLoading: { isLoading = $0 },
                         onChange: { operation in
-                            viewModel.onChange(operation)
-                            showSheet.toggle()
+                            Task { @MainActor in
+                                viewModel.onChange(operation)
+                                showSheet.toggle()
+                            }
                         })
                 )
                 .navigationTitle("New Form")

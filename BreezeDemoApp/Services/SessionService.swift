@@ -14,13 +14,14 @@
 
 import Foundation
 import JWTDecode
-import KeychainAccess
+@preconcurrency import KeychainAccess
 
 fileprivate let keychain = Keychain(service: "\(Bundle.main.bundleIdentifier!).session").accessibility(.whenUnlocked)
 
-final class SessionService: ObservableObject {
+actor SessionService: ObservableObject {
     
-    @Published private(set) var isLoggedIn: Bool
+    let isLoggedIn: AsyncStream<Bool>
+    private let isLoggedInContinuation: AsyncStream<Bool>.Continuation
     
     private(set) var userSession: UserSession?
     
@@ -30,11 +31,11 @@ final class SessionService: ObservableObject {
             if let session = session,
                let jwt = Self.jwt(session: session) {
                 self.userSession = session
-                self.isLoggedIn = !jwt.expired
+                self.isLoggedInContinuation.yield(!jwt.expired)
                 keychain[data: "session"] = try encoder.encode(session)
             } else {
                 self.userSession = session
-                self.isLoggedIn = false
+                self.isLoggedInContinuation.yield(false)
                 keychain[data: "session"] = nil
             }
             
@@ -52,7 +53,7 @@ final class SessionService: ObservableObject {
         return session
     }
     
-    static let shared = SessionService()
+    @MainActor static let shared = SessionService()
     
     private static func jwt(session: UserSession) -> JWT? {
         guard let jwt = try? decode(jwt: session.jwtToken) else {
@@ -62,23 +63,21 @@ final class SessionService: ObservableObject {
     }
     
     private init() {
+        (self.isLoggedIn, self.isLoggedInContinuation) = AsyncStream<Bool>.makeStream()
         do {
             if let session = try Self.retrieve(),
                let jwt = Self.jwt(session: session) {
                 self.userSession = session
-                self.isLoggedIn = !jwt.expired
+                self.isLoggedInContinuation.yield(!jwt.expired)
             } else {
                 self.userSession = nil
-                self.isLoggedIn = false
+                self.isLoggedInContinuation.yield(false)
             }
         } catch {
             print("\(error.localizedDescription)")
             self.userSession = nil
-            self.isLoggedIn = false
+            self.isLoggedInContinuation.yield(false)
         }
-#if targetEnvironment(simulator)
-        self.isLoggedIn = true
-#endif
     }
     
     func logout() {

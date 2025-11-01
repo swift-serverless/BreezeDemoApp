@@ -45,8 +45,10 @@ struct FormListView: View {
                             feedbackForm: form,
                             onLoading: { isLoading = $0 },
                             onChange: { operation in
-                                viewModel.onChange(operation)
-                                path = []
+                                Task { @MainActor in
+                                    viewModel.onChange(operation)
+                                    path = []
+                                }
                             }))
                         .navigationTitle(key)
                     } else {

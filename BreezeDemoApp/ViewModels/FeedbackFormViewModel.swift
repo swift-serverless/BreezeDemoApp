@@ -22,7 +22,7 @@ enum QuestionType {
 }
 
 @Observable
-class FieldViewModel: Identifiable {
+final class FieldViewModel: Identifiable, @unchecked Sendable {
     let id: Int
     let question: String
     let type: QuestionType
@@ -72,10 +72,10 @@ class FieldViewModel: Identifiable {
 }
 
 @Observable
-class FeedbackFormViewModel: Identifiable {
+final class FeedbackFormViewModel: Identifiable, @unchecked Sendable {
     let id: String
     let name: String
-    var questions: [FieldViewModel]
+    let questions: [FieldViewModel]
     var createdAt: String?
     var updatedAt: String?
     var isValid: Bool = false
@@ -86,12 +86,13 @@ class FeedbackFormViewModel: Identifiable {
     init(feedbackForm: FeedbackForm) {
         self.name = feedbackForm.name
         self.id = feedbackForm.key
-        self.questions = []
         self.createdAt = feedbackForm.createdAt
         self.updatedAt = feedbackForm.updatedAt
+        var questions = [FieldViewModel]()
         for (index, field) in feedbackForm.fields.enumerated() {
-            self.questions.append(FieldViewModel(id: index, field: field))
+            questions.append(FieldViewModel(id: index, field: field))
         }
+        self.questions = questions
         self.startObserving()
     }
     

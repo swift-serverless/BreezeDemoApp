@@ -13,9 +13,9 @@
 //    limitations under the License.
 
 import Foundation
-import BreezeLambdaAPIClient
+@preconcurrency import BreezeLambdaAPIClient
 
-protocol FormServing {
+protocol FormServing: Sendable {
     func create(form: FeedbackForm) async throws -> FeedbackForm
     func read(key: String) async throws -> FeedbackForm
     func update(form: FeedbackForm) async throws -> FeedbackForm
@@ -29,8 +29,8 @@ struct FormService: FormServing {
     
     private let session: SessionService
     
-    private var token: String? {
-        session.userSession?.jwtToken
+    private func fetchToken() async -> String? {
+        await session.userSession?.jwtToken
     }
     
     init(session: SessionService) {
@@ -43,15 +43,15 @@ struct FormService: FormServing {
     }
     
     func create(form: FeedbackForm) async throws -> FeedbackForm {
-        try await apiClient.create(token: token, item: form)
+        try await apiClient.create(token: await fetchToken(), item: form)
     }
     
     func read(key: String) async throws -> FeedbackForm {
-        try await apiClient.read(token: token, key: key)
+        try await apiClient.read(token: await fetchToken(), key: key)
     }
     
     func update(form: FeedbackForm) async throws -> FeedbackForm {
-        try await apiClient.update(token: token, item: form)
+        try await apiClient.update(token: await fetchToken(), item: form)
     }
     
     func delete(form: FeedbackForm) async throws {
@@ -59,11 +59,11 @@ struct FormService: FormServing {
               let createdAt = form.createdAt else {
             throw FormServiceError.invalidForm
         }
-        try await apiClient.delete(token: token, key: form.key, createdAt: createdAt, updatedAt: updatedAt)
+        try await apiClient.delete(token: await fetchToken(), key: form.key, createdAt: createdAt, updatedAt: updatedAt)
     }
     
     func list(startKey: String?, limit: Int?) async throws -> [FeedbackForm] {
-        try await apiClient.list(token: token, exclusiveStartKey: startKey, limit: limit)
+        try await apiClient.list(token: await fetchToken(), exclusiveStartKey: startKey, limit: limit)
     }
 }
 
@@ -93,6 +93,7 @@ enum FormServiceError: Error {
 }
 
 struct FormServiceBuilder {
+    @MainActor
     static func build() -> FormServing {
 #if targetEnvironment(simulator)
         return MockFormService()

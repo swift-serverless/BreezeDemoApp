@@ -17,7 +17,7 @@ import Foundation
 @Observable
 class FormViewModel {
     let service: FormServing
-    private var onChange: (Operation) -> Void
+    private var onChange: @Sendable (Operation) -> Void
     var form: FeedbackFormViewModel
     var error: Error? {
         didSet {
@@ -34,20 +34,22 @@ class FormViewModel {
         }
     }
     var hasError: Bool = false
-    
-    private let clock = ContinuousClock()
+
     private var onLoading: (Bool) -> Void
     
-    init(service: FormServing, feedbackForm: FeedbackForm, onLoading: @escaping (Bool) -> Void, onChange: @escaping (Operation) -> Void) {
+    init(service: FormServing, feedbackForm: FeedbackForm, onLoading: @escaping (Bool) -> Void, onChange:  @Sendable @escaping (Operation) -> Void) {
         self.service = service
         self.onChange = onChange
         self.form = FeedbackFormViewModel(feedbackForm: feedbackForm)
         self.onLoading = onLoading
     }
     
+    @MainActor
     func delete() {
         let feedbackForm = form.buildFeedbackForm()
         isLoading = true
+        let clock = ContinuousClock()
+        let service = self.service
         Task { @MainActor in
             let time = await clock.measure {
                 do {
@@ -63,9 +65,11 @@ class FormViewModel {
         }
     }
     
+    @MainActor
     func update() {
         let feedbackForm = form.buildFeedbackForm()
         isLoading = true
+        let clock = ContinuousClock()
         Task { @MainActor in
             let time = await clock.measure {
                 do {
@@ -81,9 +85,11 @@ class FormViewModel {
         }
     }
     
+    @MainActor
     func create() {
         let feedbackForm = form.buildFeedbackForm()
         isLoading = true
+        let clock = ContinuousClock()
         Task { @MainActor in
             let time = await clock.measure {
                 do {
