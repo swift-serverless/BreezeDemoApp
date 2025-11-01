@@ -1,4 +1,3 @@
-//    Copyright 2023 (c) Andrea Scuderi - https://github.com/swift-sprinter
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -16,32 +15,46 @@ import SwiftUI
 
 struct NewFormView: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     let service: FormServing
-    @ObservedObject var viewModel: FormListViewModel
+    @State var viewModel: FormListViewModel
     @Binding var isLoading: Bool
     @Binding var showSheet: Bool
     
     var body: some View {
-        NavigationStack {
-            ScrollView(.vertical) {
-                ZStack {
-                    FormView(
-                        viewModel: FormViewModel(
-                            service: service,
-                            feedbackForm: .empty(),
-                            onLoading: { isLoading = $0 },
-                            onChange: { operation in
-                                viewModel.onChange(operation)
-                                showSheet.toggle()
-                            })
-                    )
-                    .navigationTitle("New Form")
-                    .navigationBarTitleDisplayMode(.inline)
-                    if isLoading {
-                        LoadingView()
-                    }
-                }
+        ZStack {
+            NavigationStack {
+                FormView(
+                    viewModel: FormViewModel(
+                        service: service,
+                        feedbackForm: .empty(),
+                        onLoading: { isLoading = $0 },
+                        onChange: { operation in
+                            viewModel.onChange(operation)
+                            showSheet.toggle()
+                        })
+                )
+                .navigationTitle("New Form")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            if isLoading {
+                LoadingView()
             }
         }
     }
+}
+
+#Preview {
+    @Previewable @State var isLoading = false
+    @Previewable @State var showSheet = false
+    
+    let service = MockFormService()
+    let viewModel = FormListViewModel(service: service)
+    NewFormView(
+        service: service,
+        viewModel: viewModel,
+        isLoading: $isLoading,
+        showSheet: $showSheet
+    )
 }

@@ -13,8 +13,6 @@
 //    limitations under the License.
 
 import Foundation
-import Combine
-
 
 enum Operation {
     case create(FeedbackForm)
@@ -23,9 +21,9 @@ enum Operation {
     case delete(String)
 }
 
-class FormListViewModel: ObservableObject {
+@Observable
+class FormListViewModel {
 
-    private var bag = Set<AnyCancellable>()
     private let clock = ContinuousClock()
 
     let service: FormServing
@@ -34,8 +32,8 @@ class FormListViewModel: ObservableObject {
         self.service = service
     }
      
-    @Published var forms: [FeedbackForm] = []
-    @Published var error: Error? {
+    var forms: [FeedbackForm] = []
+    var error: Error? {
         didSet {
             if error != nil {
                 hasError = true
@@ -45,10 +43,10 @@ class FormListViewModel: ObservableObject {
         }
     }
     
-    @Published var hasError: Bool = false
+    var hasError: Bool = false
     
-    func form(key: String) -> FeedbackForm {
-        forms.first(where: { $0.key == key })!
+    func form(key: String) -> FeedbackForm? {
+        forms.first { $0.key == key }
     }
     
     func onChange(_ operation: Operation) {

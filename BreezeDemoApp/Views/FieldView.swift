@@ -16,17 +16,26 @@ import SwiftUI
 
 struct FieldTextView: View {
 
-    @ObservedObject var viewModel: FieldViewModel
+    @Bindable var viewModel: FieldViewModel
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         TextField("", text: $viewModel.answer)
-        .textFieldStyle(.roundedBorder)
+            .textFieldStyle(.roundedBorder)
+            .padding([.bottom])
+            .focused($isFocused)
+            .onTapGesture {
+                self.isFocused = true
+            }
+            .onSubmit {
+                self.isFocused = false
+            }
     }
 }
 
 struct FieldOptionView: View {
     
-    @ObservedObject var viewModel: FieldViewModel
+    @Bindable var viewModel: FieldViewModel
     @State var options: [String]
     
     var body: some View {
@@ -49,7 +58,7 @@ struct FieldOptionView: View {
 
 struct FieldMultiOptionView: View {
     
-    @ObservedObject var viewModel: FieldViewModel
+    @Bindable var viewModel: FieldViewModel
     @State var options: [String]
     
     var body: some View {
@@ -68,7 +77,7 @@ struct FieldMultiOptionView: View {
 
 struct FieldView: View {
     
-    @ObservedObject var viewModel: FieldViewModel
+    @Bindable var viewModel: FieldViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -85,30 +94,28 @@ struct FieldView: View {
     }
 }
 
-struct FieldView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            FieldView(
-                viewModel: FieldViewModel(
-                    id: 0,
-                    question: "What do you like about Breeze?",
-                    type: .text
-                )
+#Preview {
+    VStack {
+        FieldView(
+            viewModel: FieldViewModel(
+                id: 0,
+                question: "What do you like about Breeze?",
+                type: .text
             )
-            FieldView(
-                viewModel: FieldViewModel(
-                    id: 0,
-                    question: "Which level of knowledge you have about Swift?",
-                    type: .options(["None", "Low", "Medium", "High"])
-                )
+        )
+        FieldView(
+            viewModel: FieldViewModel(
+                id: 0,
+                question: "Which level of knowledge you have about Swift?",
+                type: .options(["None", "Low", "Medium", "High"])
             )
-            FieldView(
-                viewModel: FieldViewModel(
-                    id: 0,
-                    question: "Which development experinces you have?",
-                    type: .multiOptions(["None", "iOS", "Web", "Vapor", "NodeJS"])
-                )
+        )
+        FieldView(
+            viewModel: FieldViewModel(
+                id: 0,
+                question: "Which development experinces you have?",
+                type: .multiOptions(["None", "iOS", "Web", "Vapor", "NodeJS"])
             )
-        }.padding()
-    }
+        )
+    }.padding()
 }

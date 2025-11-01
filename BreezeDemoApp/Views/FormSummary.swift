@@ -64,9 +64,8 @@ struct FormSummary: View {
     }
 }
 
-struct FormSummary_Previews: PreviewProvider {
-    
-    static let form = FeedbackForm(
+#Preview {
+    let form = FeedbackForm(
         key: UUID().uuidString,
         name: "Swift, Serverless and AWS Survey",
         fields: [
@@ -103,8 +102,5 @@ struct FormSummary_Previews: PreviewProvider {
         createdAt: Date().ISO8601Format(.iso8601),
         updatedAt: Date().ISO8601Format(.iso8601)
     )
-    
-    static var previews: some View {
-        FormSummary(form: form)
-    }
+    FormSummary(form: form).padding()
 }

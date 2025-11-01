@@ -69,11 +69,11 @@ struct FormService: FormServing {
 
 struct APIEnvironment {
     static func dev() throws -> APIClientEnv {
-        try APIClientEnv(session: URLSession.shared, baseURL: "<API GATEWAY BASE URL FROM SERVERLESS DEPLOY>")
+        try APIClientEnv(session: URLSession.shared, baseURL: "https://gn6jqhr6hl.execute-api.eu-west-2.amazonaws.com/")
     }
 }
 
-extension FeedbackForm: KeyedCodable {}
+extension FeedbackForm: @retroactive KeyedCodable {}
 
 struct Logger: APIClientLogging {
     

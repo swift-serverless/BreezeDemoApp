@@ -13,7 +13,7 @@ struct LoadingView: View {
             ProgressView()
                 .scaleEffect(1.5)
                 .frame(width: 100, height: 100)
-                .background(.white)
+                .background(.white.opacity(0.9))
                 .cornerRadius(15.0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -21,11 +21,9 @@ struct LoadingView: View {
     }
 }
 
-struct LoadingView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Text("Something below the view")
-            LoadingView()
-        }
+#Preview {
+    ZStack {
+        Text("Something below the view")
+        LoadingView()
     }
 }

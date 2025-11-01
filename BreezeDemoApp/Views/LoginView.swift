@@ -51,3 +51,10 @@ struct LoginView: View {
         }
     }
 }
+
+#Preview {
+    let loginService = LoginService(session: SessionService.shared) { value in
+        print(value)
+    }
+    LoginView(loginService: loginService)
+}

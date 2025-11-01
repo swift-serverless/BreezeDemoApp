@@ -17,7 +17,7 @@ import SwiftUI
 struct FormListView: View {
     
     private let service: FormServing
-    @ObservedObject var viewModel: FormListViewModel
+    @State var viewModel: FormListViewModel
     @State private var path: [String] = []
     @State var showSheet: Bool = false
     @State var isLoading: Bool = false
@@ -39,15 +39,19 @@ struct FormListView: View {
                     }
                 }
                 .navigationDestination(for: String.self) { key in
-                    FormView(viewModel: FormViewModel(
-                        service: service,
-                        feedbackForm: viewModel.form(key: key),
-                        onLoading: { isLoading = $0 },
-                        onChange: { operation in
-                            viewModel.onChange(operation)
-                            path = []
-                        }))
-                    .navigationTitle(key)
+                    if let form = viewModel.form(key: key) {
+                        FormView(viewModel: FormViewModel(
+                            service: service,
+                            feedbackForm: form,
+                            onLoading: { isLoading = $0 },
+                            onChange: { operation in
+                                viewModel.onChange(operation)
+                                path = []
+                            }))
+                        .navigationTitle(key)
+                    } else {
+                        EmptyView()
+                    }
                 }
                 .refreshable {
                     viewModel.list()
@@ -90,11 +94,7 @@ struct FormListView: View {
     }
 }
 
-struct FormListView_Previews: PreviewProvider {
-    
-    static let service = MockFormService()
-    
-    static var previews: some View {
-        FormListView(service: service, close: {})
-    }
+#Preview {
+    let service = MockFormService()
+    FormListView(service: service, close: {})
 }

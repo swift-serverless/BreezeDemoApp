@@ -13,7 +13,6 @@
 //    limitations under the License.
 
 import Foundation
-import Combine
 import SharedModel
 
 enum QuestionType {
@@ -22,15 +21,12 @@ enum QuestionType {
     case multiOptions([String])
 }
 
-class FieldViewModel: Identifiable, ObservableObject {
+@Observable
+class FieldViewModel: Identifiable {
     let id: Int
     let question: String
     let type: QuestionType
-    @Published var answer: String {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+    var answer: String
     
     var selected: [String] {
         answer.split(separator: ",").map { String($0) }
@@ -75,45 +71,47 @@ class FieldViewModel: Identifiable, ObservableObject {
     }
 }
 
-class FeedbackFormViewModel: ObservableObject {
-    
-    private var bag = Set<AnyCancellable>()
-    
+@Observable
+class FeedbackFormViewModel: Identifiable {
     let id: String
     let name: String
-    @Published var questions: [FieldViewModel]
-    
-    var createdAt: String? {
-        didSet {
-            objectWillChange.send()
-        }
-    }
-    
+    var questions: [FieldViewModel]
+    var createdAt: String?
+    var updatedAt: String?
+    var isValid: Bool = false
     var isNew: Bool {
         createdAt == nil
     }
-    var updatedAt: String?
     
     init(feedbackForm: FeedbackForm) {
         self.name = feedbackForm.name
         self.id = feedbackForm.key
         self.questions = []
+        self.createdAt = feedbackForm.createdAt
+        self.updatedAt = feedbackForm.updatedAt
         for (index, field) in feedbackForm.fields.enumerated() {
             self.questions.append(FieldViewModel(id: index, field: field))
         }
-        self.createdAt = feedbackForm.createdAt
-        self.updatedAt = feedbackForm.updatedAt
-
-        for question in questions {
-            question.objectWillChange.sink { _ in
-                self.objectWillChange.send()
-            }.store(in: &bag)
+        self.startObserving()
+    }
+    
+    func questionsAreNotEmpty() -> Bool {
+        questions.reduce(true) { partialResult, question in
+            partialResult && !question.answer.isEmpty
         }
     }
     
-    func isValid() -> Bool {
-        questions.reduce(true) { partialResult, question in
-            partialResult && !question.answer.isEmpty
+    private func startObserving() {
+        self.isValid = self.questionsAreNotEmpty()
+        withObservationTracking {
+            _ = questions.count
+            for question in questions {
+                let _ = question.answer.isEmpty
+            }
+        } onChange: {
+            Task { @MainActor in
+                self.startObserving()
+            }
         }
     }
 }

@@ -13,11 +13,10 @@
 //    limitations under the License.
 
 import SwiftUI
-import Combine
 
 struct FormView: View {
     
-    @StateObject var viewModel: FormViewModel
+    @State var viewModel: FormViewModel
 
     var body: some View {
         ScrollView(.vertical) {
@@ -29,14 +28,14 @@ struct FormView: View {
                 if viewModel.form.isNew {
                     RoundButton(
                         text: "Submit",
-                        enabled: $viewModel.isValid,
+                        enabled: $viewModel.form.isValid,
                         action: viewModel.create
                     )
                 } else {
                     VStack {
                         RoundButton(
                             text: "Update",
-                            enabled: $viewModel.isValid,
+                            enabled: $viewModel.form.isValid,
                             action: viewModel.update
                         )
                         RoundButton(
@@ -49,8 +48,8 @@ struct FormView: View {
                 }
             }.padding()
         }
+        .scrollIndicators(.never)
         .tint(.orange)
-        .padding()
         .alert(isPresented: $viewModel.hasError) {
             Alert(
                 title: Text("\(viewModel.error?.localizedDescription ?? "")"),
@@ -65,21 +64,14 @@ struct FormView: View {
     }
 }
 
-struct FormView_Previews: PreviewProvider {
-    
-    static let service = MockFormService()
-    static var isLoading = false
-    
-    static var previews: some View {
-        FormView(
-            viewModel: FormViewModel(
-                service: service,
-                feedbackForm: .empty(),
-                onLoading: { isLoading = $0 },
-                onChange: { value in
-                    print(value)
-                }
-            )
-        )
-    }
+#Preview {
+    @Previewable var viewModel = FormViewModel(
+        service: MockFormService(),
+        feedbackForm: .empty(),
+        onLoading: { _ in },
+        onChange: { value in
+            print(value)
+        }
+    )
+    FormView(viewModel: viewModel)
 }

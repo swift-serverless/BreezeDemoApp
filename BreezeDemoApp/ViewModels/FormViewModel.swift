@@ -13,16 +13,13 @@
 //    limitations under the License.
 
 import Foundation
-import Combine
 
-class FormViewModel: ObservableObject {
-    
-    private var bag = Set<AnyCancellable>()
+@Observable
+class FormViewModel {
     let service: FormServing
     private var onChange: (Operation) -> Void
-    @Published var form: FeedbackFormViewModel
-    @Published var isValid: Bool = false
-    @Published var error: Error? {
+    var form: FeedbackFormViewModel
+    var error: Error? {
         didSet {
             if error != nil {
                 hasError = true
@@ -31,8 +28,12 @@ class FormViewModel: ObservableObject {
             }
         }
     }
-    @Published var isLoading: Bool = false
-    @Published var hasError: Bool = false
+    var isLoading: Bool = false {
+        didSet {
+            onLoading(isLoading)
+        }
+    }
+    var hasError: Bool = false
     
     private let clock = ContinuousClock()
     private var onLoading: (Bool) -> Void
@@ -42,13 +43,6 @@ class FormViewModel: ObservableObject {
         self.onChange = onChange
         self.form = FeedbackFormViewModel(feedbackForm: feedbackForm)
         self.onLoading = onLoading
-        self.isValid = self.form.isValid()
-        form.objectWillChange.sink { _ in
-            self.isValid = self.form.isValid()
-        }.store(in: &bag)
-        $isLoading.sink { value in
-            self.onLoading(value)
-        }.store(in: &bag)
     }
     
     func delete() {
