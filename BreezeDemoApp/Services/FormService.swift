@@ -13,7 +13,7 @@
 //    limitations under the License.
 
 import Foundation
-@preconcurrency import BreezeLambdaAPIClient
+import BreezeLambdaAPIClient
 
 protocol FormServing: Sendable {
     func create(form: FeedbackForm) async throws -> FeedbackForm
@@ -34,10 +34,9 @@ struct FormService: FormServing {
     }
     
     init(session: SessionService) {
-        guard var env = try? APIEnvironment.dev() else {
+        guard let env = try? APIEnvironment.dev(logger: Logger()) else {
             fatalError("Invalid Environment")
         }
-        env.logger = Logger()
         self.session = session
         self.apiClient = BreezeLambdaAPIClient<FeedbackForm>(env: env, path: "forms", additionalHeaders: [:])
     }
@@ -68,8 +67,8 @@ struct FormService: FormServing {
 }
 
 struct APIEnvironment {
-    static func dev() throws -> APIClientEnv {
-        try APIClientEnv(session: URLSession.shared, baseURL: "https://gn6jqhr6hl.execute-api.eu-west-2.amazonaws.com/")
+    static func dev(logger: (any APIClientLogging)?) throws -> APIClientEnv {
+        try APIClientEnv(session: URLSession.shared, baseURL: "https://gn6jqhr6hl.execute-api.eu-west-2.amazonaws.com/", logger: logger)
     }
 }
 
